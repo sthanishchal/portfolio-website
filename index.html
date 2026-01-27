@@ -1,350 +1,323 @@
-<script type="text/javascript">
-    var gk_isXlsx = false;
-    var gk_xlsxFileLookup = {};
-    var gk_fileData = {};
-    function filledCell(cell) {
-        return cell !== '' && cell != null;
-    }
-    function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                    row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                    headerRowIndex = 0;
-                }
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-    }
-</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nishchal Shrestha - UI/UX & Software Developer Portfolio</title>
-    <meta name="description" content="Portfolio of Nishchal Shrestha, a B.Sc. CSIT student and UI/UX designer from Dharan, Nepal, specializing in user-centered design, web development, and innovative technology solutions.">
-    <meta name="keywords" content="Nishchal Shrestha, UI/UX Designer, Web Developer, B.Sc. CSIT, Dharan, Nepal">
-    <meta name="author" content="Nishchal Shrestha">
-    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6.26.0/babel.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
-        body {
-            background: #0a0a0a;
-            color: #e0e0e0;
-            font-family: 'Roboto', sans-serif;
-            overflow-x: hidden;
-        }
-        .neon-glow {
-            text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc;
-        }
-        .project-card, .timeline-item, .resume-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .project-card:hover, .resume-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -10px;
-            top: 0;
-            width: 16px;
-            height: 16px;
-            background: #00ffcc;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #00ffcc;
-        }
-        .skill-bar {
-            background: #1f2937;
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .skill-fill {
-            background: #00ffcc;
-            height: 100%;
-            transition: width 1s ease-in-out;
-        }
-        .scroll-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #00ffcc;
-            color: #0a0a0a;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-        .scroll-to-top:hover {
-            opacity: 1;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Nishchal Shrestha – UI/UX Designer, Web Developer & Creative Technologist from Nepal">
+<meta name="keywords" content="Nishchal Shrestha, UI UX Designer, Web Developer, Portfolio Nepal">
+<meta name="author" content="Nishchal Shrestha">
+
+<title>Nishchal Shrestha</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+:root{
+  --red:#e10600;
+  --bg:#050505;
+  --glass:rgba(255,255,255,0.06);
+  --text:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);overflow-x:hidden}
+
+/* Background particles */
+canvas{position:fixed;inset:0;z-index:-1}
+
+/* Cursor glow */
+.cursor{
+  position:fixed;width:38px;height:38px;border-radius:50%;
+  background:radial-gradient(circle,var(--red),transparent 70%);
+  pointer-events:none;mix-blend-mode:screen;z-index:999;
+}
+
+/* Sections */
+section{padding:110px 10%}
+h2{font-size:42px;font-weight:800;margin-bottom:40px}
+h2 span{color:var(--red)}
+p{color:#ccc;line-height:1.9;font-size:18px}
+
+/* Hero */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;background:radial-gradient(circle at top,#220000,#000)
+}
+.hero h1{font-size:72px;font-weight:800}
+.hero h1 span{color:var(--red)}
+.hero p{margin-top:20px;font-size:20px}
+.hero a{
+  display:inline-block;margin-top:40px;padding:14px 36px;
+  border:1px solid var(--red);border-radius:40px;
+  text-decoration:none;color:#fff;transition:.4s
+}
+.hero a:hover{background:var(--red);transform:scale(1.05)}
+
+/* Grid & Cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
+.card{
+  background:var(--glass);backdrop-filter:blur(14px);
+  padding:30px;border-radius:20px;
+  border:1px solid rgba(255,255,255,0.08);
+  transition:.4s
+}
+.card:hover{transform:translateY(-10px);border-color:var(--red)}
+.card h3{color:var(--red);margin-bottom:10px}
+
+/* Timeline */
+.timeline{position:relative;margin-left:20px}
+.timeline::before{
+  content:'';position:absolute;left:0;top:0;width:2px;height:100%;
+  background:var(--red)
+}
+.timeline-item{
+  margin-bottom:40px;padding-left:30px;position:relative
+}
+.timeline-item::before{
+  content:'';position:absolute;left:-9px;top:6px;
+  width:14px;height:14px;border-radius:50%;background:var(--red)
+}
+
+/* Skills */
+.skill{margin-bottom:15px}
+.bar{background:#111;border-radius:20px;overflow:hidden}
+.fill{height:8px;background:var(--red)}
+
+/* Social */
+.social{text-align:center}
+.social a{
+  margin:0 16px;font-size:32px;color:#fff;transition:.3s
+}
+.social a:hover{color:var(--red);transform:scale(1.2)}
+
+/* Contact */
+form{max-width:520px;margin:auto;display:flex;flex-direction:column;gap:18px}
+input,textarea{
+  padding:14px;background:#090909;border:1px solid #222;
+  color:#fff;border-radius:10px
+}
+button{
+  padding:14px;border:none;border-radius:40px;
+  background:var(--red);color:#fff;font-weight:600;cursor:pointer
+}
+
+/* Footer */
+footer{text-align:center;padding:30px;background:#020202;color:#666}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:1s}
+.reveal.active{opacity:1;transform:none}
+</style>
 </head>
+
 <body>
-    <div id="root"></div>
-    <script type="text/babel">
-        const { useState, useEffect } = React;
 
-        const TypedText = () => {
-            const [text, setText] = useState('');
-            const fullText = 'UI/UX Designer & Software Developer';
-            const [index, setIndex] = useState(0);
-            useEffect(() => {
-                if (index < fullText.length) {
-                    const timeout = setTimeout(() => {
-                        setText(text + fullText[index]);
-                        setIndex(index + 1);
-                    }, 100);
-                    return () => clearTimeout(timeout);
-                }
-            }, [index, text]);
-            return <p className="text-base sm:text-lg md:text-xl text-cyan-300">{text}</p>;
-        };
+<canvas id="particles"></canvas>
+<div class="cursor"></div>
 
-        const ProjectCard = ({ title, description, category }) => (
-            <div className="project-card bg-gray-800 rounded-lg overflow-hidden">
-                <div className="p-4 sm:p-6">
-                    <h3 className="text-base sm:text-lg font-bold text-white">{title}</h3>
-                    <p className="text-gray-400 text-sm sm:text-base">{description}</p>
-                    <span className="inline-block mt-2 px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs sm:text-sm">{category}</span>
-                </div>
-            </div>
-        );
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <h1>Nishchal <span>Shrestha</span></h1>
+    <p>Graphic & Website Designer | Visual Communication Specialist | AI & Tech Enthusiast</p>
+    <a href="#contact">Hire Me</a>
+  </div>
+</section>
 
-        const App = () => {
-            const [filter, setFilter] = useState('all');
-            const projects = [
-                { id: 1, title: 'Dog Breed Classification', description: 'Built a convolutional neural network model to identify dog breeds from images using Python and deep learning.', category: 'AI' },
-                { id: 2, title: 'UI/UX Wireframe', description: 'Designed wireframes and prototypes for a mobile app during CodeIT internship using Figma.', category: 'Design' },
-                { id: 3, title: 'Portfolio Website', description: 'Developed a responsive portfolio site with React and Tailwind CSS for personal branding.', category: 'Web' },
-            ];
-            const filteredProjects = filter === 'all' ? projects : projects.filter(project => project.category === filter);
-            const skills = [
-                { name: 'UI/UX Design (Figma, Adobe XD)', level: 85 },
-                { name: 'Frontend Development (HTML, CSS, JS)', level: 80 },
-                { name: 'Graphic Design (Canva, Adobe)', level: 75 },
-                { name: 'Digital Marketing', level: 70 },
-                { name: 'Python', level: 65 },
-                { name: 'AWS Cloud Fundamentals', level: 60 },
-                { name: 'User Research & Usability Testing', level: 80 },
-                { name: 'Cross-Functional Collaboration', level: 85 },
-            ];
+<!-- ABOUT -->
+<section class="reveal">
+<h2>About <span>Me</span></h2>
+<p>
+I’m Nishchal Shrestha, a Computer Science and Information Technology graduate
+from Dharan, Nepal, specializing in UI/UX design and frontend development.
+I focus on building human-centered, visually refined, and functional digital
+experiences.
+<br><br>
+My expertise spans user research, wireframing, prototyping, responsive web
+development, and design systems. I also have hands-on experience with
+deep-learning based image classification, branding, digital marketing, and
+cloud fundamentals.
+</p>
+</section>
 
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                alert('Message sent successfully!');
-                e.target.reset();
-            };
+<!-- EDUCATION -->
+<section class="reveal">
+<h2>Education</h2>
+<div class="timeline">
+  <div class="timeline-item">
+    <h3>B.Sc. CSIT</h3>
+    <p>Tribhuvan University – Birendra Memorial College<br>2020 – 2025</p>
+  </div>
+  <div class="timeline-item">
+    <h3>+2 Science (Computer Science)</h3>
+    <p>Dharan Higher Secondary School<br>2017 – 2019</p>
+  </div>
+  <div class="timeline-item">
+    <h3>Secondary Education</h3>
+    <p>Eureka Residential Higher Secondary School<br>2002 – 2016</p>
+  </div>
+</div>
+</section>
 
-            const scrollToTop = () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            };
+<!-- EXPERIENCE -->
+<section class="reveal">
+<h2>Experience</h2>
+<div class="timeline">
 
-            return (
-                <div>
-                    <header id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-cyan-900 text-center px-4 sm:px-6">
-                        <div>
-                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white neon-glow font-['Orbitron']">Nishchal Shrestha</h1>
-                            <TypedText />
-                            <p className="text-gray-400 mt-2 text-sm sm:text-base">Dharan, Kosi Zone, Nepal</p>
-                            <a href="#contact" className="mt-4 sm:mt-6 inline-block px-4 sm:px-6 py-2 sm:py-3 bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition text-sm sm:text-base">Hire Me</a>
-                        </div>
-                    </header>
-                    <nav className="sticky top-0 bg-gray-900/80 backdrop-blur-md py-3 sm:py-4 z-50">
-                        <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-4 sm:gap-6 px-4 sm:px-6">
-                            <a href="#home" className="text-cyan-300 hover:text-cyan-500 text-sm sm:text-base">Home</a>
-                            <a href="#projects" className="text-cyan-300 hover:text-cyan-500 text-sm sm:text-base">Projects</a>
-                            <a href="#about" className="text-cyan-300 hover:text-cyan-500 text-sm sm:text-base">About</a>
-                            <a href="#education" className="text-cyan-300 hover:text-cyan-500 text-sm sm:text-base">Education</a>
-                            <a href="#experience" className="text-cyan-300 hover:text-cyan-500 text-sm sm:text-base">Experience</a>
-                            <a href="#certifications" className="text-cyan-300 hover:text-cyan-500 text-sm sm:text-base">Certifications</a>
-                            <a href="#resume" className="text-cyan300 hover:text-cyan-500 text-sm sm:text-base">Resume</a>
-                            <a href="#contact" className="text-cyan-300 hover:text-cyan-500 text-sm sm:text-base">Contact</a>
-                        </div>
-                    </nav>
-                    <section id="projects" className="py-12 sm:py-16 px-4 sm:px-6 max-w-7xl mx-auto">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-6 sm:mb-8 font-['Orbitron']">My Projects</h2>
-                        <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6 sm:mb-8">
-                            <button onClick={() => setFilter('all')} className={`px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm ${filter === 'all' ? 'bg-cyan-500 text-white' : 'bg-gray-700 text-cyan-300'}`}>All</button>
-                            <button onClick={() => setFilter('AI')} className={`px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm ${filter === 'AI' ? 'bg-cyan-500 text-white' : 'bg-gray-700 text-cyan-300'}`}>AI</button>
-                            <button onClick={() => setFilter('Design')} className={`px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm ${filter === 'Design' ? 'bg-cyan-500 text-white' : 'bg-gray-700 text-cyan-300'}`}>Design</button>
-                            <button onClick={() => setFilter('Web')} className={`px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm ${filter === 'Web' ? 'bg-cyan-500 text-white' : 'bg-gray-700 text-cyan-300'}`}>Web</button>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                            {filteredProjects.map(project => (
-                                <ProjectCard key={project.id} {...project} />
-                            ))}
-                        </div>
-                    </section>
-                    <section id="about" className="py-12 sm:py-16 px-4 sm:px-6 bg-gray-800">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-6 sm:mb-8 font-['Orbitron']">About Me</h2>
-                        <div className="max-w-3xl mx-auto text-center text-gray-300 mb-8 sm:mb-12 text-sm sm:text-base">
-                            <p className="mb-4">
-                                I am Nishchal Shrestha, a motivated B.Sc. CSIT student and aspiring UI/UX designer from Dharan, Nepal. With a strong foundation in human-centered design and front-end development, I create digital experiences that are visually compelling, functional, and accessible. My technical expertise spans user research, wireframing, prototyping, and front-end technologies like HTML, CSS, and JavaScript.
-                            </p>
-                            <p>
-                                As an Executive Member of the CSIT Association of Nepal, I’ve organized tech events and bootcamps, fostering collaboration and learning. I’m driven by continuous growth, aiming to design innovative products that enhance user engagement and business growth.
-                            </p>
-                        </div>
-                        <h3 className="text-lg sm:text-xl font-bold text-center text-cyan-300 mb-4 sm:mb-6">My Skills</h3>
-                        <div className="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {skills.map(skill => (
-                                <div key={skill.name} className="mb-4">
-                                    <p className="text-gray-300 text-sm sm:text-base">{skill.name}</p>
-                                    <div className="skill-bar">
-                                        <div className="skill-fill" style={{ width: `${skill.level}%` }}></div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                    <section id="education" className="py-12 sm:py-16 px-4 sm:px-6 max-w-7xl mx-auto">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-6 sm:mb-8 font-['Orbitron']">Education</h2>
-                        <div className="max-w-3xl mx-auto relative pl-6 sm:pl-8">
-                            <div className="timeline-item mb-6 sm:mb-8">
-                                <h3 className="text-lg sm:text-xl font-bold text-cyan-300">B.Sc. CSIT</h3>
-                                <p className="text-gray-400 text-sm sm:text-base">Birendra Memorial College, Tribhuvan University, Dharan, Nepal (Nov 2020 - Jun 2025)</p>
-                                <p className="text-sm sm:text-base">Executive Member, CSIT Association of Nepal - Purwanchal Chapter</p>
-                            </div>
-                            <div className="timeline-item mb-6 sm:mb-8">
-                                <h3 className="text-lg sm:text-xl font-bold text-cyan-300">Higher Secondary, Computer Science</h3>
-                                <p className="text-gray-400 text-sm sm:text-base">Dharan Higher Secondary School (Jul 2017 - May 2019)</p>
-                            </div>
-                            <div className="timeline-item">
-                                <h3 className="text-lg sm:text-xl font-bold text-cyan-300">School Education</h3>
-                                <p className="text-gray-400 text-sm sm:text-base">Eureka Residential Higher Secondary School (Apr 2002 - Apr 2016)</p>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="experience" className="py-12 sm:py-16 px-4 sm:px-6 bg-gray-800">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-6 sm:mb-8 font-['Orbitron']">Experience</h2>
-                        <div className="max-w-3xl mx-auto relative pl-6 sm:pl-8">
-                            <div className="timeline-item mb-6 sm:mb-8">
-                                <h3 className="text-lg sm:text-xl font-bold text-cyan-300">UI/UX Design Intern - CodeIT</h3>
-                                <p className="text-gray-400 text-sm sm:text-base">Dharan, Nepal | Mar 2025 - Present</p>
-                                <ul className="text-gray-300 list-disc ml-5 text-sm sm:text-base">
-                                    <li>Collaborating on user-centered design projects, focusing on wireframing, prototyping, and usability testing</li>
-                                    <li>Applying design principles, color theory, typography, and semantic HTML</li>
-                                    <li>Conducting user research to solve real-world UI/UX problems</li>
-                                </ul>
-                            </div>
-                            <div className="timeline-item mb-6 sm:mb-8">
-                                <h3 className="text-lg sm:text-xl font-bold text-cyan-300">Graphic Design Intern - CodeAlpha</h3>
-                                <p className="text-gray-400 text-sm sm:text-base">Lucknow, India | Nov 2024 - Dec 2024 (2 months)</p>
-                                <ul className="text-gray-300 list-disc ml-5 text-sm sm:text-base">
-                                    <li>Created posters, logos, and designs for various clients using Canva and Adobe tools</li>
-                                    <li>Developed skills in graphic design and visual branding</li>
-                                </ul>
-                            </div>
-                            <div className="timeline-item">
-                                <h3 className="text-lg sm:text-xl font-bold text-cyan-300">CSIT Association of Nepal - Purwanchal</h3>
-                                <p className="text-gray-400 text-sm sm:text-base">Dharan, Nepal</p>
-                                <p className="text-gray-400 text-sm sm:text-base">Executive Member | Mar 2023 - Dec 2023 (10 months)</p>
-                                <ul className="text-gray-300 list-disc ml-5 text-sm sm:text-base">
-                                    <li>Organized tech-talk events and a 6-day web development bootcamp</li>
-                                    <li>Collaborated with peers to foster tech education and community engagement</li>
-                                </ul>
-                                <p className="text-gray-400 mt-2 text-sm sm:text-base">General Member | Feb 2023 - Apr 2023 (3 months)</p>
-                                <ul className="text-gray-300 list-disc ml-5 text-sm sm:text-base">
-                                    <li>Participated in community events and tech initiatives</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="certifications" className="py-12 sm:py-16 px-4 sm:px-6 max-w-7xl mx-auto">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-6 sm:mb-8 font-['Orbitron']">Certifications</h2>
-                        <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                            <div className="resume-card bg-gray-700 p-4 sm:p-6 rounded-lg">
-                                <h3 className="text-base sm:text-lg font-bold text-cyan-300">Web Development</h3>
-                                <p className="text-gray-400 text-sm sm:text-base">Mastered HTML, CSS, and JavaScript for responsive web design</p>
-                            </div>
-                            <div className="resume-card bg-gray-700 p-4 sm:p-6 rounded-lg">
-                                <h3 className="text-base sm:text-lg font-bold text-cyan-300">Digital Marketing</h3>
-                                <p className="text-gray-400 text-sm sm:text-base">Learned SEO, social media, and content strategies</p>
-                            </div>
-                            <div className="resume-card bg-gray-700 p-4 sm:p-6 rounded-lg">
-                                <h3 className="text-base sm:text-lg font-bold text-cyan-300">Navigating AWS: From Fundamentals to Generating AI Applications</h3>
-                                <p className="text-gray-400 text-sm sm:text-base">Explored AWS services and AI application development</p>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="resume" className="py-12 sm:py-16 px-4 sm:px-6 bg-gray-800">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-6 sm:mb-8 font-['Orbitron']">Resume</h2>
-                        <div className="max-w-3xl mx-auto">
-                            <div className="resume-card bg-gray-700 p-4 sm:p-6 rounded-lg mb-6 sm:mb-8">
-                                <h3 className="text-lg sm:text-xl font-bold text-cyan-300 mb-4">Professional Summary</h3>
-                                <p className="text-gray-300 text-sm sm:text-base">
-                                    Motivated B.Sc. CSIT student specializing in UI/UX design, web development, and innovative technology solutions. Proficient in Figma, Adobe XD, Canva, HTML, CSS, JavaScript, and Python, with certifications in Web Development, Digital Marketing, and AWS Cloud Fundamentals. Experienced in user research, wireframing, prototyping, and responsive design. Active contributor to tech communities as an Executive Member of the CSIT Association of Nepal. Passionate about creating visually compelling, accessible digital experiences and solving real-world problems through technology and design.
-                                </p>
-                            </div>
-                            <div className="text-center">
-                                <a
-                                    href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-                                    download="Nishchal_Shrestha_Resume.pdf"
-                                    className="inline-block px-4 sm:px-6 py-2 sm:py-3 bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition text-sm sm:text-base"
-                                >
-                                    Download Resume
-                                </a>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="contact" className="py-12 sm:py-16 px-4 sm:px-6 max-w-lg mx-auto">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-6 sm:mb-8 font-['Orbitron']">Get in Touch</h2>
-                        <div className="text-center text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">
-                            <p>Singha Devi Path (Chhata Chowk), Dharan, Nepal</p>
-                            <p>+977 9812311177 | nshrestha.official@outlook.com</p>
-                            <a href="https://www.linkedin.com/in/sthanishchal" className="text-cyan-300 hover:text-cyan-500">LinkedIn Profile</a>
-                        </div>
-                        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                            <input type="text" placeholder="Name" required className="p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:border-cyan-500 text-sm sm:text-base" />
-                            <input type="email" placeholder="Email" required className="p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:border-cyan-500 text-sm sm:text-base" />
-                            <textarea placeholder="Your Message" rows="5" required className="p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:border-cyan-500 text-sm sm:text-base"></textarea>
-                            <button type="submit" className="p-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition text-sm sm:text-base">Send Message</button>
-                        </form>
-                    </section>
-                    <footer className="py-6 bg-gray-900 text-center text-gray-400">
-                        <p className="text-sm sm:text-base">© 2025 Nishchal Shrestha. All rights reserved.</p>
-                        <div className="mt-2 flex justify-center gap-4">
-                            <a href="https://www.linkedin.com/in/sthanishchal" className="text-cyan-300 hover:text-cyan-500 text-sm sm:text-base">LinkedIn</a>
-                            <a href="#" className="text-cyan-300 hover:text-cyan-500 text-sm sm:text-base">GitHub</a>
-                            <a href="#" className="text-cyan-300 hover:text-cyan-500 text-sm sm:text-base">Instagram</a>
-                        </div>
-                    </footer>
-                    <div className="scroll-to-top" onClick={scrollToTop}>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                        </svg>
-                    </div>
-                </div>
-            );
-        };
+  <div class="timeline-item">
+    <h3>Video Editor / Content Creator</h3>
+    <p>Code IT (2025 – Present)<br>
+    Creating and editing video content to enhance brand presence.</p>
+  </div>
 
-        ReactDOM.render(<App />, document.getElementById('root'));
-    </script>
+  <div class="timeline-item">
+    <h3>UI/UX Design Intern</h3>
+    <p>Code IT (Mar 2025 – May 2025)<br>
+    Worked on user research, wireframing, prototyping, usability, and developer handoff.</p>
+  </div>
+
+  <div class="timeline-item">
+    <h3>Graphic Design Intern</h3>
+    <p>CodeAlpha (Nov 2024 – Dec 2024)<br>
+    Designed branding and digital assets.</p>
+  </div>
+
+  <div class="timeline-item">
+    <h3>Executive Member</h3>
+    <p>CSIT Association of Nepal – Purwanchal (2023)<br>
+    Organized tech events and led a 6-day Web Development bootcamp.</p>
+  </div>
+
+  <div class="timeline-item">
+    <h3>Content Creator & Editor</h3>
+    <p>YouTube (2017 – Present)</p>
+  </div>
+
+</div>
+</section>
+
+<!-- SKILLS -->
+ 
+
+<section class="reveal">
+<h2>Skills</h2>
+<div class="grid">
+  <div class="card">
+    <div class="skill">UI/UX Design<div class="bar"><div class="fill" style="width:90%"></div></div></div>
+    <div class="skill">Frontend Development<div class="bar"><div class="fill" style="width:85%"></div></div></div>
+    <div class="skill">Python & AI<div class="bar"><div class="fill" style="width:70%"></div></div></div>
+  </div>
+</div>
+</section>
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=html,css,js,react,tailwind,figma,github,git,vscode,cpp,python,aws,firebase,nodejs" alt="Skills" />
+</p>
+
+<!-- PROJECTS -->
+<section class="reveal">
+<h2>Projects & Case Studies</h2>
+<div class="grid">
+  <div class="card">
+    <h3>Dog Breed Classification</h3>
+    <p>
+      CNN-based deep learning model for identifying dog breeds.
+      Focused on dataset preprocessing, training, and evaluation.
+    </p>
+  </div>
+  <div class="card">
+    <h3>UI/UX Case Studies</h3>
+    <p>
+      User-centered redesigns and usability-focused interface concepts.
+    </p>
+  </div>
+  <div class="card">
+    <h3>Creative Portfolio</h3>
+    <p>
+      High-end personal branding website showcasing design and development skills.
+    </p>
+  </div>
+</div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section class="reveal">
+<h2>Certifications</h2>
+<div class="grid">
+  <div class="card">Web Development</div>
+  <div class="card">Digital Marketing</div>
+  <div class="card">AWS Fundamentals → Generative AI</div>
+</div>
+</section>
+
+<!-- SOCIAL -->
+<section class="social reveal">
+<h2>Connect <span>With Me</span></h2>
+<a href="https://www.facebook.com/sthanishchalTV" target="_blank"><i class="fab fa-facebook"></i></a>
+<a href="https://www.instagram.com/sthanishchal/" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="https://www.linkedin.com/in/sthanishchal/" target="_blank"><i class="fab fa-linkedin"></i></a>
+<a href="https://github.com/sthanishchal" target="_blank"><i class="fab fa-github"></i></a>
+<a href="https://www.youtube.com/@sthanishchalTV" target="_blank"><i class="fab fa-youtube"></i></a>
+
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="reveal">
+<h2>Contact <span>Me</span></h2>
+<form onsubmit="alert('Message sent successfully!');return false;">
+<input placeholder="Your Name" required>
+<input type="email" placeholder="Your Email" required>
+<textarea rows="5" placeholder="Your Message"></textarea>
+<button>Send Message</button>
+</form>
+</section>
+
+<footer>
+© 2026 Nishchal Shrestha — All Rights Reserved
+</footer>
+
+<script>
+/* Cursor */
+const cursor=document.querySelector('.cursor');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX-19+'px';
+  cursor.style.top=e.clientY-19+'px';
+});
+
+/* Reveal */
+window.addEventListener('scroll',()=>{
+  document.querySelectorAll('.reveal').forEach(r=>{
+    if(r.getBoundingClientRect().top<innerHeight-100)
+      r.classList.add('active');
+  });
+});
+
+/* Particles */
+const c=document.getElementById('particles'),ctx=c.getContext('2d');
+function resize(){c.width=innerWidth;c.height=innerHeight}
+resize();window.onresize=resize;
+
+let p=[...Array(70)].map(()=>({
+  x:Math.random()*c.width,
+  y:Math.random()*c.height,
+  vx:(Math.random()-.5)*.4,
+  vy:(Math.random()-.5)*.4
+}));
+
+(function anim(){
+  ctx.clearRect(0,0,c.width,c.height);
+  p.forEach(a=>{
+    a.x+=a.vx;a.y+=a.vy;
+    if(a.x<0||a.x>c.width)a.vx*=-1;
+    if(a.y<0||a.y>c.height)a.vy*=-1;
+    ctx.fillStyle='#e10600';ctx.globalAlpha=.6;
+    ctx.beginPath();ctx.arc(a.x,a.y,1.5,0,Math.PI*2);ctx.fill();
+  });
+  requestAnimationFrame(anim);
+})();
+</script>
+
 </body>
 </html>
