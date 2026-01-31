@@ -272,7 +272,58 @@
     <div>
       <h1><span>Nishchal</span> <span>Shrestha</span></h1>
       <p>Graphic & Website Designer | Visual Communication Specialist | AI & Tech Enthusiast</p>
-      <a href="#contact">Hire Me</a>
+      <a href="#contact"
+   style="
+     position:relative;
+     display:inline-block;
+     padding:16px 48px;
+     border-radius:60px;
+     text-decoration:none;
+     color:#fff;
+     font-size:18px;
+     font-weight:600;
+     letter-spacing:.4px;
+     background:linear-gradient(135deg,#e10600,#ff3b3b);
+     box-shadow:0 0 40px rgba(225,6,0,.6),0 0 120px rgba(225,6,0,.35);
+     overflow:hidden;
+     transition:transform .35s ease, box-shadow .35s ease;
+   "
+   onmouseover="this.style.transform='scale(1.08)';this.style.boxShadow='0 0 60px rgba(225,6,0,.9),0 0 180px rgba(225,6,0,.55)'"
+   onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 0 40px rgba(225,6,0,.6),0 0 120px rgba(225,6,0,.35)'"
+>
+  <span style="position:relative;z-index:2;">Let’s Work Together</span>
+
+  <!-- Glow -->
+  <span style="
+    position:absolute;
+    inset:-40%;
+    background:radial-gradient(circle,rgba(255,255,255,.35),transparent 60%);
+    opacity:.6;
+    animation:ctaGlow 3s ease-in-out infinite;
+  "></span>
+
+  <!-- Moving Border -->
+  <span style="
+    position:absolute;
+    inset:2px;
+    border-radius:58px;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,.9),transparent);
+    animation:ctaBorder 3s linear infinite;
+    opacity:.35;
+  "></span>
+</a>
+
+<style>
+@keyframes ctaGlow {
+  0%,100% { opacity:.4; }
+  50% { opacity:.9; }
+}
+@keyframes ctaBorder {
+  from { transform:translateX(-60%); }
+  to { transform:translateX(60%); }
+}
+</style>
+
     </div>
   </section>
 
@@ -289,61 +340,265 @@ Driven by curiosity and continuous learning, I stay deeply engaged with AI, desi
     </p>
   </section>
 
-  <!-- EDUCATION -->
-  <section class="reveal">
-    <h2><span>Education</span></h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <h3>B.Sc.CSIT</h3>
-        <p>Birendra Memorial College(TU)<br>2020 – 2025</p>
-      </div>
-      <div class="timeline-item">
-        <h3>+2 Science (Computer Science)</h3>
-        <p>Dharan Higher Secondary School<br>2017 – 2019</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Secondary Education</h3>
-        <p>Eureka Residential Higher Secondary School<br>2002 – 2016</p>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nishchal Shrestha | Education & Experience</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050505;
+      --red: #e10600;
+      --text: #ffffff;
+      --glass: rgba(255,255,255,0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    section {
+      padding: 100px 10%;
+    }
+
+    h2 {
+      font-size: 42px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    h2 span {
+      color: var(--red);
+    }
+
+    /* TIMELINE */
+    .timeline {
+      position: relative;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 3px;
+      height: 0;
+      background: var(--red);
+      transform: translateX(-50%);
+      transition: height 1.6s ease;
+    }
+
+    .timeline.animate::before {
+      height: 100%;
+    }
+
+    .timeline-item {
+      position: relative;
+      width: 50%;
+      padding: 30px 40px;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease;
+    }
+
+    .timeline-item.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-item.left {
+      left: 0;
+      text-align: right;
+    }
+
+    .timeline-item.right {
+      left: 50%;
+      text-align: left;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      top: 38px;
+      width: 16px;
+      height: 16px;
+      background: var(--red);
+      border-radius: 50%;
+      box-shadow: 0 0 25px rgba(225,6,0,0.9);
+      z-index: 2;
+    }
+
+    .timeline-item.left::before {
+      right: -8px;
+    }
+
+    .timeline-item.right::before {
+      left: -8px;
+    }
+
+    .timeline-content {
+      background: var(--glass);
+      padding: 26px 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(14px);
+      transition: 0.4s;
+    }
+
+    .timeline-content:hover {
+      transform: translateY(-8px);
+      border-color: var(--red);
+    }
+
+    .timeline-content h3 {
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+
+    .timeline-content span {
+      font-size: 14px;
+      color: #bbb;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      section {
+        padding: 80px 6%;
+      }
+
+      h2 {
+        font-size: 32px;
+      }
+
+      .timeline::before {
+        left: 20px;
+      }
+
+      .timeline-item {
+        width: 100%;
+        left: 0 !important;
+        text-align: left;
+        padding-left: 60px;
+        padding-right: 20px;
+      }
+
+      .timeline-item::before {
+        left: 12px;
+      }
+    }
+  </style>
+
+
+
+<!-- EDUCATION -->
+<section>
+  <h2><span>Education</span></h2>
+
+  <div class="timeline">
+    <div class="timeline-item left">
+      <div class="timeline-content">
+        <h3>B.Sc. CSIT</h3>
+        <p>Birendra Memorial College (TU)<br><span>2020 – 2025</span></p>
       </div>
     </div>
-  </section>
 
-  <!-- EXPERIENCE -->
-  <section class="reveal">
-    <h2><span>Experience</span></h2>
-    <div class="timeline">
+    <div class="timeline-item right">
+      <div class="timeline-content">
+        <h3>+2 Science (Computer Science)</h3>
+        <p>Dharan Higher Secondary School<br><span>2017 – 2019</span></p>
+      </div>
+    </div>
 
-      <div class="timeline-item">
+    <div class="timeline-item left">
+      <div class="timeline-content">
+        <h3>Secondary Education</h3>
+        <p>Eureka Residential Higher Secondary School<br><span>2002 – 2016</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section>
+  <h2><span>Experience</span></h2>
+
+  <div class="timeline">
+    <div class="timeline-item right">
+      <div class="timeline-content">
         <h3>Video Editor / Content Creator</h3>
-        <p>Code IT (2025 – Present)<br>
+        <p>Code IT<br><span>2025 – Present</span><br>
           Creating and editing video content to enhance brand presence.</p>
       </div>
-
-      <div class="timeline-item">
-        <h3>UI/UX Design Intern</h3>
-        <p>Code IT (Mar 2025 – May 2025)<br>
-          Worked on user research, wireframing, prototyping, usability, and developer handoff.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>Graphic Design Intern</h3>
-        <p>CodeAlpha (Nov 2024 – Dec 2024)<br>
-          Designed branding and digital assets.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>Executive Member</h3>
-        <p>CSIT Association of Nepal – Purwanchal (2023)<br>
-          Organized tech events and led a 6-day Web Development bootcamp.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>Content Creator & Editor</h3>
-        <p>YouTube (2017 – Present)</p>
-      </div>
-
     </div>
-  </section>
+
+    <div class="timeline-item left">
+      <div class="timeline-content">
+        <h3>UI/UX Design Intern</h3>
+        <p>Code IT<br><span>Mar 2025 – May 2025</span><br>
+          User research, wireframing, prototyping & usability testing.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item right">
+      <div class="timeline-content">
+        <h3>Graphic Design Intern</h3>
+        <p>CodeAlpha<br><span>Nov 2024 – Dec 2024</span><br>
+          Branding and digital asset design.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item left">
+      <div class="timeline-content">
+        <h3>Executive Member</h3>
+        <p>CSIT Association of Nepal – Purwanchal<br><span>2023</span><br>
+          Organized tech events & led a web bootcamp.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item right">
+      <div class="timeline-content">
+        <h3>Content Creator & Editor</h3>
+        <p>YouTube<br><span>2017 – Present</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const timelines = document.querySelectorAll('.timeline');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate');
+        entry.target.querySelectorAll('.timeline-item').forEach((item, i) => {
+          setTimeout(() => item.classList.add('show'), i * 200);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  timelines.forEach(t => observer.observe(t));
+</script>
+
+
 
   <!-- SKILLS -->
   <section class="skills-section">
@@ -1017,15 +1272,15 @@ Driven by curiosity and continuous learning, I stay deeply engaged with AI, desi
 </script>
 
 
-  <!-- SOCIAL -->
+  <!-- META -->
   <meta charset="UTF-8">
   <title>Nishchal Shrestha | Digital Presence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Font Awesome -->
+  <!-- FONT AWESOME -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Font -->
+  <!-- GOOGLE FONT -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
   <style>
@@ -1039,6 +1294,7 @@ Driven by curiosity and continuous learning, I stay deeply engaged with AI, desi
       --linkedin: #0a66c2;
       --github: #ffffff;
       --youtube: #ff0000;
+      --discord: #5865F2;
     }
 
     body {
@@ -1091,11 +1347,11 @@ Driven by curiosity and continuous learning, I stay deeply engaged with AI, desi
       transition: transform .35s ease, box-shadow .35s ease;
     }
 
-    /* FLOATING EFFECT */
     .social-card:nth-child(2) { animation-delay: .4s; }
     .social-card:nth-child(3) { animation-delay: .8s; }
     .social-card:nth-child(4) { animation-delay: 1.2s; }
     .social-card:nth-child(5) { animation-delay: 1.6s; }
+    .social-card:nth-child(6) { animation-delay: 2s; }
 
     @keyframes float {
       0%,100% { transform: translateY(0); }
@@ -1136,17 +1392,14 @@ Driven by curiosity and continuous learning, I stay deeply engaged with AI, desi
       white-space: nowrap;
     }
 
-    .social-card:hover::after,
-    .social-card:focus-visible::after {
+    .social-card:hover::after {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
 
     /* COMMON HOVER */
-    .social-card:hover,
-    .social-card:focus-visible {
+    .social-card:hover {
       transform: translateY(-14px) scale(1.15);
-      outline: none;
     }
 
     /* PLATFORM COLORS */
@@ -1158,13 +1411,7 @@ Driven by curiosity and continuous learning, I stay deeply engaged with AI, desi
     .linkedin:hover { background: var(--linkedin); box-shadow: 0 0 32px rgba(10,102,194,.9); }
     .github:hover { background: #111; box-shadow: 0 0 32px rgba(255,255,255,.7); }
     .youtube:hover { background: var(--youtube); box-shadow: 0 0 32px rgba(255,0,0,.9); }
-
-    /* REDUCED MOTION */
-    @media (prefers-reduced-motion: reduce) {
-      .social-card {
-        animation: none;
-      }
-    }
+    .discord:hover { background: var(--discord); box-shadow: 0 0 32px rgba(88,101,242,.9); }
 
     /* MOBILE */
     @media (max-width: 600px) {
@@ -1177,6 +1424,7 @@ Driven by curiosity and continuous learning, I stay deeply engaged with AI, desi
     }
   </style>
 
+</head>
 
 <body>
 
@@ -1184,6 +1432,7 @@ Driven by curiosity and continuous learning, I stay deeply engaged with AI, desi
   <h2><span>Digital Presence</span></h2>
 
   <div class="social-grid">
+
     <a class="social-card facebook" href="https://www.facebook.com/sthanishchalTV" target="_blank" data-label="Facebook">
       <i class="fab fa-facebook-f"></i>
     </a>
@@ -1200,28 +1449,254 @@ Driven by curiosity and continuous learning, I stay deeply engaged with AI, desi
       <i class="fab fa-github"></i>
     </a>
 
+    <a class="social-card discord" href="https://discord.gg/SSUd3N8e" target="_blank" data-label="Discord">
+      <i class="fab fa-discord"></i>
+    </a>
+
     <a class="social-card youtube" href="https://www.youtube.com/@sthanishchalTV" target="_blank" data-label="YouTube">
       <i class="fab fa-youtube"></i>
     </a>
+
   </div>
 </section>
 
 
 
-  <!-- CONTACT -->
-  <section id="contact" class="reveal">
-    <h2><span>Contact Me</span></h2>
-    <form onsubmit="alert('Message sent successfully!');return false;">
-      <input placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea rows="5" placeholder="Your Message"></textarea>
-      <button>Send Message</button>
-    </form>
-  </section>
 
-  <footer>
-    © 2026 Nishchal Shrestha — All Rights Reserved
-  </footer>
+<!-- GOD MODE CONTACT (DIRECT GMAIL) -->
+<section id="contact" class="contact-god">
+  <h2><span>Contact Me</span></h2>
+
+  <div class="god-glow"></div>
+
+  <div class="form-wrap">
+    <form
+      action="mailto:nshresthaofficial@gmail.com"
+      method="GET"
+      target="_blank"
+    >
+      <!-- SUBJECT -->
+      <input type="hidden" name="subject" value="Portfolio Inquiry – Nishchal Shrestha">
+
+      <div class="field">
+        <input type="text" name="body" placeholder="Your Name" required>
+        <label>Your Name</label>
+      </div>
+
+      <div class="field">
+        <input type="email" placeholder="Your Email" required>
+        <label>Your Email</label>
+      </div>
+
+      <div class="field">
+        <textarea
+          name="body"
+          rows="5"
+          placeholder="Write your message here..."
+          required
+        ></textarea>
+        <label>Your Message</label>
+      </div>
+
+      <button type="submit">
+        ✉️ Send via Gmail
+      </button>
+    </form>
+  </div>
+</section>
+
+<style>
+.contact-god {
+  padding: 140px 10%;
+  text-align: center;
+  position: relative;
+}
+
+.contact-god h2 {
+  font-size: 46px;
+  font-weight: 800;
+  margin-bottom: 70px;
+}
+.contact-god h2 span { color: #e10600; }
+
+.form-wrap form {
+  max-width: 520px;
+  margin: auto;
+  padding: 50px;
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(22px);
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,.15);
+  box-shadow: 0 40px 140px rgba(0,0,0,.85);
+}
+
+.field {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 18px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 14px;
+  color: #fff;
+  outline: none;
+}
+
+.field textarea { resize: none; }
+
+.field label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,.6);
+  pointer-events: none;
+  transition: .3s;
+}
+
+.field input:focus + label,
+.field textarea:focus + label,
+.field input:valid + label,
+.field textarea:valid + label {
+  top: -8px;
+  font-size: 12px;
+  color: #e10600;
+  background: #050505;
+  padding: 0 8px;
+}
+
+button {
+  width: 100%;
+  height: 56px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg,#e10600,#ff3b3b);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 50px rgba(225,6,0,.8);
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+@media(max-width:600px){
+  .contact-god h2 { font-size: 32px; }
+  .form-wrap form { padding: 36px 24px; }
+}
+</style>
+
+
+  <!-- GOD MODE FOOTER -->
+<footer class="footer-god">
+  <div class="footer-glow"></div>
+
+  <div class="footer-inner">
+    <div class="brand">
+      <span class="name">Nishchal Shrestha</span>
+
+    <div class="meta">
+      <span>© <span id="year"></span> All Rights Reserved</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+/* FOOTER ROOT */
+.footer-god {
+  position: relative;
+  padding: 120px 8% 80px;
+  overflow: hidden;
+  text-align: center;
+}
+
+
+
+/* INNER */
+.footer-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* BRAND */
+.brand .name {
+  display: block;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.brand .tagline {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  color: rgba(255,255,255,.6);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* DIVIDER */
+.divider {
+  width: 120px;
+  height: 1px;
+  margin: 40px auto;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255,255,255,.4),
+    transparent
+  );
+}
+
+/* META */
+.meta {
+  font-size: 13px;
+  color: rgba(255,255,255,.5);
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.meta .dot {
+  opacity: .4;
+}
+
+/* SUBTLE FLOAT */
+.footer-inner {
+  animation: footerFloat 6s ease-in-out infinite;
+}
+
+@keyframes footerFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  .footer-inner { animation: none; }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .brand .name { font-size: 22px; }
+  .brand .tagline { font-size: 12px; }
+}
+</style>
+
+<script>
+/* AUTO YEAR */
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
 
   <script>
     /* Cursor */
