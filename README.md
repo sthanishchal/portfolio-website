@@ -70,11 +70,9 @@ If you have any questions or would like to collaborate, feel free to reach out:
 
 Website: https://www.nishchalshrestha.com.np/
 
-GitHub: @nishchal
+Email: nshresthaofficial@gmail.com
 
-Email: nishchal@example.com – replace with your actual email
-
-Built with ❤️ by Nishchal Shrestha
+Built by Nishchal Shrestha
 
 
 ---
