@@ -614,6 +614,158 @@
       flex-shrink: 0;
       margin-top: 2px;
     }
+      /* Experience, Education, Certificates unified */
+    .exp-list, .edu-list, .cert-list { display: flex; flex-direction: column; gap: 10px; }
+    .exp-item, .edu-item, .cert-item {
+      background: var(--bg-400);
+      border: 1px solid var(--outline-200);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .exp-icon, .edu-icon, .cert-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-300);
+      border: 1px solid var(--outline-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .exp-info, .edu-info, .cert-info { flex: 1; min-width: 140px; }
+    .exp-title, .edu-title, .cert-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .exp-company, .edu-institute, .cert-issuer { font-size: 12px; color: var(--text-grey200); }
+    .exp-period, .edu-year, .cert-date {
+      font-size: 12px;
+      color: var(--text-grey200);
+      background: var(--bg-300);
+      border: 1px solid var(--outline-300);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    /* Skills Grid */
+     /* skills grid & skill advertised (core competencies) */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .skill-tag {
+      background: var(--bg-500);
+      border: 1px solid var(--outline-200);
+      border-radius: var(--radius-full);
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-grey100);
+      transition: all 0.2s;
+      letter-spacing: -0.2px;
+    }
+    .skill-tag:hover {
+      border-color: var(--green);
+      color: var(--green-text);
+      background: var(--green-bg);
+      transform: translateY(-2px);
+    }
+    .competency-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .competency-chip {
+      background: rgba(40,199,128,0.08);
+      border: 1px solid rgba(40,199,128,0.25);
+      border-radius: var(--radius-full);
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--green-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .competency-chip i { font-size: 12px; opacity: 0.8; }
+
+
+ /* CTA & Footer */
+    .cta-card { padding: 48px 8px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    .cta-title { font-family: 'Inter Display', sans-serif; font-size: clamp(28px, 7vw, 36px); font-weight: 600; }
+    .cta-desc { font-size: 16px; color: var(--text-grey100); line-height: 160%; max-width: 320px; margin: 0 auto; }
+    .socials-section { display: flex; flex-direction: column; gap: 24px; padding: 24px; }
+    .social-buttons { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 80px;
+      background: var(--bg-300);
+      border: 1px solid var(--outline-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: var(--text-white);
+      font-size: 16px;
+      transition: opacity .2s, transform .2s;
+    }
+    .social-btn:hover { opacity: .8; transform: scale(1.1); background: var(--bg-500); }
+    .footer-card {
+      background: var(--bg-400);
+      border-radius: var(--radius-md);
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .footer-line { font-size: 13px; color: var(--text-grey200); letter-spacing: .14px; }
+
+    /* Tooltip */
+    [data-tooltip] { position: relative; }
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-300);
+      border: 1px solid var(--outline-300);
+      color: var(--text-white);
+      font-size: 12px;
+      white-space: nowrap;
+      padding: 4px 8px;
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s;
+    }
+    [data-tooltip]:hover::after { opacity: 1; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .page-wrapper { padding: 80px 8px 8px; }
+      .hero-section { padding: 0 16px 40px; gap: 24px; }
+      .hero-content-row { flex-direction: column; align-items: center; text-align: center; }
+      .hero-left { align-items: center; }
+      .hero-buttons { justify-content: center; }
+      .hero-name { font-size: 28px; }
+      .role-badge { font-size: 16px; }
+      .nav-wrapper { top: 8px; width: calc(100% - 16px); }
+      .section-card-inner { padding: 16px; }
+      .exp-item, .edu-item, .cert-item { flex-direction: column; align-items: flex-start; }
+      .exp-period, .edu-year, .cert-date { align-self: flex-start; }
+    }
+    @media (max-width: 420px) {
+      .nav { height: 56px; padding: 0 10px; }
+      .nav-link { width: 34px; height: 34px; }
+      .nav-indicator { width: 34px; height: 34px; }
+      .hero-avatar { width: 148px; height: 148px; }
+      .hero-avatar img { width: 132px; height: 132px; top: 8px; left: 8px; border-width: 6px; }
+    }
   </style>
 </head>
 <audio id="bgMusic" loop>
@@ -635,7 +787,7 @@
           <svg viewBox="0 0 32 32" fill="none"><rect x="4.33" y="5.67" width="23.33" height="18.67" rx="1.67" stroke="currentColor" stroke-width="2"/><line x1="5.67" y1="13.33" x2="27.67" y2="13.33" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="8.67" cy="10" r="1" fill="currentColor"/><circle cx="11.33" cy="10" r="1" fill="currentColor"/><circle cx="14" cy="10" r="1" fill="currentColor"/></svg>
         </a>
 
-        <a href="#products" class="nav-link" data-tooltip="Products" onclick="setActive(this)">
+        <a href="#experience" class="nav-link" data-tooltip="Experience" onclick="setActive(this)">
           <svg viewBox="0 0 32 32" fill="none"><path d="M7.32 13.62C7.51 12.12 8.78 11 10.29 11H21.7C23.21 11 24.49 12.12 24.68 13.62L26.04 24.29C26.15 25.14 25.88 26 25.31 26.65C24.74 27.3 23.92 27.67 23.06 27.67H8.94C8.08 27.67 7.26 27.3 6.69 26.65C6.12 26 5.85 25.14 5.96 24.29L7.32 13.62Z" stroke="currentColor" stroke-width="2"/><path d="M12 14.67C12.74 14.67 13.33 15.26 13.33 16V16.01C13.33 16.75 12.74 17.35 12 17.35C11.26 17.35 10.67 16.75 10.67 16.01V16C10.67 15.26 11.26 14.67 12 14.67ZM20 14.67C20.74 14.67 21.33 15.26 21.33 16V16.01C21.33 16.75 20.74 17.35 20 17.35C19.26 17.35 18.67 16.75 18.67 16.01V16C18.67 15.26 19.26 14.67 20 14.67ZM16 6.41C14.41 6.41 13.08 7.74 13.08 9.44V10.67H10.92V9.44C10.92 6.6 13.17 4.25 16 4.25C18.83 4.25 21.08 6.6 21.08 9.44V10.67H18.92V9.44C18.92 7.74 17.59 6.41 16 6.41Z" fill="currentColor"/></svg>
         </a>
 
@@ -643,9 +795,23 @@
           <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="10.67" stroke="currentColor" stroke-width="2"/><path d="M16 9.67C14.34 9.67 13 11.01 13 12.67C13 14.32 14.34 15.67 16 15.67C17.66 15.67 19 14.32 19 12.67C19 11.01 17.66 9.67 16 9.67ZM16 19C13.01 19 10.39 20.43 8.81 22.59C8.48 23.04 7.86 23.13 7.41 22.81C6.96 22.48 6.87 21.86 7.19 21.41C9.14 18.74 12.37 17 16 17C19.63 17 22.86 18.74 24.81 21.41C25.13 21.86 25.04 22.48 24.59 22.81C24.14 23.13 23.52 23.04 23.19 22.59C21.61 20.43 18.99 19 16 19Z" fill="currentColor"/></svg>
         </a>
 
-        <button id="musicToggle" class="hire-btn" onclick="toggleMusic()" style="padding:0 10px;">
-  <i class="fas fa-music"></i>
-</button>
+      <a href="javascript:void(0)" 
+   id="musicToggle"
+   class="nav-link" 
+   data-tooltip="Music" 
+   onclick="toggleMusic(); setActive(this)">
+
+  <!-- Play Icon -->
+  <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7z"/>
+  </svg>
+
+  <!-- Pause Icon -->
+  <svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+    <path d="M6 5h4v14H6zm8 0h4v14h-4z"/>
+  </svg>
+
+</a>
 
       </div>
 
@@ -667,7 +833,7 @@
         <div class="hero-top-row">
           <div class="role-badge">
             <div class="role-dot"></div>
-            CREATIVE EDITOR
+            CREATIVE DESIGNER
           </div>
           <a href="mailto:nshresthaofficial@gmail.com" class="available-badge">
             <div class="available-dot"></div>
@@ -679,17 +845,10 @@
           <div class="hero-left">
             <div class="hero-text">
               <h1 class="hero-name">I'm Nishchal Shrestha</h1>
-              <p class="hero-desc">UI/UX Designer & Web Developer from Dharan, Nepal. Currently Marketing Manager at Code&nbsp;IT.</p>
+              <p class="hero-desc">UI/UX Designer & Web Developer from Dharan, Nepal.
+              </p>Currently Working at Code&nbsp;IT.</p>
             </div>
             <div class="hero-buttons">
-              <a href="mailto:nshresthaofficial@gmail.com" class="btn-primary">
-                <div class="plus-icon" style="position:relative;width:16px;height:16px;border:1.5px solid rgba(255,255,255,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:.8;"></div>
-                Hire Me
-              </a>
-              <button class="btn-secondary" onclick="navigator.clipboard.writeText('nshresthaofficial@gmail.com');this.textContent='Copied!'">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M12.5 13.8H7.5C6.95 13.8 6.5 13.35 6.5 12.8V6.8C6.5 6.24 6.95 5.8 7.5 5.8H12.5C13.05 5.8 13.5 6.24 13.5 6.8V12.8C13.5 13.35 13.05 13.8 12.5 13.8Z" stroke="rgba(192,192,192,.6)" stroke-width="1.5" stroke-linecap="round"/><path d="M9.5 3.72V2.8C9.5 2.24 9.05 1.8 8.5 1.8H3.5C2.95 1.8 2.5 2.24 2.5 2.8V9.8C2.5 10.35 2.95 10.8 3.5 10.8H4.36" stroke="rgba(192,192,192,.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
-                Copy Email
-              </button>
             </div>
           </div>
           <div class="hero-avatar">
@@ -698,47 +857,123 @@
         </div>
       </section>
 
-      <!-- ── PROJECTS ── -->
+       <!-- Projects (Enhanced with real GitHub repos) -->
       <section class="section-card" id="projects">
         <div class="section-card-inner">
           <div class="section-header">
-            <div class="section-label">
-              <div class="role-dot"></div>
-              Projects
-            </div>
-            <a href="https://www.behance.net/nishchashresth" target="_blank" class="view-all-btn">
-              View All
-              <svg width="11" height="10" viewBox="0 0 11 10" fill="none"><path d="M6.2 1.25L9.8 5M9.8 5L6.2 8.75M0.8 5L9.8 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
+            <div class="section-label"><div class="role-dot"></div> Projects</div>
+            <a href="https://github.com/sthanishchal" target="_blank" class="view-all-btn">View All <svg width="11" height="10" viewBox="0 0 11 10"><path d="M6.2 1.25L9.8 5M9.8 5L6.2 8.75M0.8 5L9.8 5" stroke="currentColor" stroke-width="1.5"/></svg></a>
           </div>
           <div class="project-list">
-            <a href="https://github.com/sthanishchal" target="_blank" class="project-item">
+            <a href="https://github.com/sthanishchal/Dog-Breed-Classifier" target="_blank" class="project-item">
               <div class="project-logo">🐾</div>
-              <div class="project-info">
-                <div class="project-name">Dog Breed Classifier</div>
-                <div class="project-meta">AI / Deep Learning, Python</div>
-              </div>
-              <svg class="chevron-right" viewBox="0 0 9 15" fill="none"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(110,110,110,1)" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <div class="project-info"><div class="project-name">Dog Breed Classifier</div><div class="project-meta">AI • Deep Learning • CNN • Python</div></div>
+              <svg class="chevron-right" viewBox="0 0 9 15"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(110,110,110,1)" stroke-width="1.8"/></svg>
+            </a>
+            <a href="https://github.com/sthanishchal/Grocery-" target="_blank" class="project-item">
+              <div class="project-logo">🛒</div>
+              <div class="project-info"><div class="project-name">Grocery Bill Manager</div><div class="project-meta">Python • Automation • Scripting</div></div>
+              <svg class="chevron-right" viewBox="0 0 9 15"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(110,110,110,1)" stroke-width="1.8"/></svg>
+            </a>
+            <a href="https://github.com/sthanishchal/Flower-blooming" target="_blank" class="project-item">
+              <div class="project-logo">🌸</div>
+              <div class="project-info"><div class="project-name">Flower Bloom Animation</div><div class="project-meta">SCSS • CSS Art • Creative Coding</div></div>
+              <svg class="chevron-right" viewBox="0 0 9 15"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(110,110,110,1)" stroke-width="1.8"/></svg>
             </a>
             <a href="https://www.behance.net/nishchashresth" target="_blank" class="project-item">
               <div class="project-logo">🎨</div>
-              <div class="project-info">
-                <div class="project-name">UI/UX Case Studies</div>
-                <div class="project-meta">User Research, Prototyping</div>
-              </div>
-              <svg class="chevron-right" viewBox="0 0 9 15" fill="none"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(110,110,110,1)" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </a>
-            <a href="https://github.com/sthanishchal" target="_blank" class="project-item">
-              <div class="project-logo">💻</div>
-              <div class="project-info">
-                <div class="project-name">Creative Portfolio</div>
-                <div class="project-meta">Web Design, Frontend Dev</div>
-              </div>
-              <svg class="chevron-right" viewBox="0 0 9 15" fill="none"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(110,110,110,1)" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <div class="project-info"><div class="project-name">UI/UX Case Studies</div><div class="project-meta">Figma • User Research • Prototyping</div></div>
+              <svg class="chevron-right" viewBox="0 0 9 15"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(110,110,110,1)" stroke-width="1.8"/></svg>
             </a>
           </div>
         </div>
       </section>
+
+      <!-- Experience (detailed from your PDF) -->
+<section class="section-card">
+  <div class="section-card-inner">
+    <div class="section-label">
+      <div class="role-dot"></div> Professional Journey
+    </div>
+
+    <div class="exp-list">
+
+      <div class="exp-item">
+        <div class="exp-icon">📢</div>
+        <div class="exp-info">
+          <div class="exp-title">Marketing Manager / Video Editor / Tutor</div>
+          <div class="exp-company">CODE IT, Dharan</div>
+          <div class="exp-desc">
+            Content strategy, storytelling, visual campaigns, and helping students master design tools. Currently serving as a core creative lead.
+          </div>
+        </div>
+        <div class="exp-period">Dec 2025 – Present</div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-icon">▶️</div>
+        <div class="exp-info">
+          <div class="exp-title">Content Creator (YouTube)</div>
+          <div class="exp-company">sthanishchalTV – 9+ years of consistency</div>
+          <div class="exp-desc">
+            Digital storytelling, audience engagement, long-term brand building.
+          </div>
+        </div>
+        <div class="exp-period">2017 – Present</div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-icon">🎨</div>
+        <div class="exp-info">
+          <div class="exp-title">UI/UX Design Intern</div>
+          <div class="exp-company">CODE IT, Dharan</div>
+          <div class="exp-desc">
+            Real-world user research, high-fidelity prototyping, design systems with Figma.
+          </div>
+        </div>
+        <div class="exp-period">Mar–May 2025</div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-icon">✨</div>
+        <div class="exp-info">
+          <div class="exp-title">Graphic Design Intern</div>
+          <div class="exp-company">CodeAlpha, Lucknow</div>
+          <div class="exp-desc">
+            Designed logos, posters, and brand identity assets; strengthened visual communication.
+          </div>
+        </div>
+        <div class="exp-period">Nov–Dec 2024</div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-icon">🏛️</div>
+        <div class="exp-info">
+          <div class="exp-title">Executive Member</div>
+          <div class="exp-company">CSIT Association of Nepal – Purwanchal</div>
+          <div class="exp-desc">
+            Organized tech-talks, co-led a 6-day Web Development Bootcamp, coordinated teams.
+          </div>
+        </div>
+        <div class="exp-period">Mar–Dec 2023</div>
+      </div>
+
+      <!-- NEW ADDITION -->
+      <div class="exp-item">
+        <div class="exp-icon">🤝</div>
+        <div class="exp-info">
+          <div class="exp-title">General Member</div>
+          <div class="exp-company">CSIT Association of Nepal – Purwanchal</div>
+          <div class="exp-desc">
+            Participated in events, workshops, and collaborative tech activities, building foundational leadership and teamwork experience.
+          </div>
+        </div>
+        <div class="exp-period">Dec 2022 – Mar 2023</div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       <!-- ── PRODUCTS / LINKS ── -->
       <section class="section-card" id="products">
@@ -778,57 +1013,185 @@
         </div>
       </section>
 
-      <!-- ── EXPERIENCE ── -->
-      <section class="section-card" id="about">
-        <div class="section-card-inner">
-          <div class="section-label">
-            <div class="role-dot"></div>
-            Experience
-          </div>
-          <div class="exp-list">
-            <div class="exp-item">
-              <div class="exp-icon">📢</div>
-              <div class="exp-info">
-                <div class="exp-title">Marketing Manager & Video Editor</div>
-                <div class="exp-company">Code IT</div>
-              </div>
-              <div class="exp-period">2025 – Present</div>
-            </div>
-            <div class="exp-item">
-              <div class="exp-icon">🖥️</div>
-              <div class="exp-info">
-                <div class="exp-title">UI/UX Design Intern</div>
-                <div class="exp-company">Code IT</div>
-              </div>
-              <div class="exp-period">Mar–May 2025</div>
-            </div>
-            <div class="exp-item">
-              <div class="exp-icon">🎨</div>
-              <div class="exp-info">
-                <div class="exp-title">Graphic Design Intern</div>
-                <div class="exp-company">CodeAlpha</div>
-              </div>
-              <div class="exp-period">Nov–Dec 2024</div>
-            </div>
-            <div class="exp-item">
-              <div class="exp-icon">🏛️</div>
-              <div class="exp-info">
-                <div class="exp-title">Executive Member – CSIT Association</div>
-                <div class="exp-company">CSIT Association of Nepal – Purwanchal</div>
-              </div>
-              <div class="exp-period">2023</div>
-            </div>
-            <div class="exp-item">
-              <div class="exp-icon">▶️</div>
-              <div class="exp-info">
-                <div class="exp-title">Content Creator & Editor</div>
-                <div class="exp-company">YouTube – @sthanishchalTV</div>
-              </div>
-              <div class="exp-period">2017 – Present</div>
-            </div>
+       <!-- Education (as per your details) -->
+<section class="section-card">
+  <div class="section-card-inner">
+    <div class="section-label">
+      <div class="role-dot"></div> Education
+    </div>
+
+    <div class="edu-list">
+
+      <div class="edu-item">
+        <div class="edu-icon">📖</div>
+        <div class="edu-info">
+          <div class="edu-title">Bachelor's in Computer Science</div>
+          <div class="edu-institute">Birendra Memorial College (TU)</div>
+        </div>
+        <div class="edu-year">2020 – 2025</div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-icon">🏫</div>
+        <div class="edu-info">
+          <div class="edu-title">Higher Secondary (+2) – Computer Science</div>
+          <div class="edu-institute">Dharan Higher Secondary School</div>
+        </div>
+        <div class="edu-year">2017 – 2019</div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-icon">📚</div>
+        <div class="edu-info">
+          <div class="edu-title">Schooling</div>
+          <div class="edu-institute">Eureka Residential Higher Secondary School</div>
+        </div>
+        <div class="edu-year">2002 – 2016</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+    <!-- Skills Section (Expanded & Clean) -->
+<section class="section-card">
+  <div class="section-card-inner">
+    <div class="section-label">
+      <div class="role-dot"></div>Skills
+    </div>
+
+    <div class="competency-list">
+
+      <div class="competency-chip"><i class="fas fa-paintbrush"></i> UI/UX Strategy</div>
+      <div class="competency-chip"><i class="fas fa-code"></i> Frontend Development</div>
+      <div class="competency-chip"><i class="fas fa-mobile-alt"></i> Responsive Design</div>
+      <div class="competency-chip"><i class="fas fa-chart-line"></i> Brand Marketing</div>
+      <div class="competency-chip"><i class="fas fa-video"></i> Video Editing</div>
+      <div class="competency-chip"><i class="fas fa-database"></i> AI/ML Basics</div>
+      <div class="competency-chip"><i class="fas fa-users"></i> User Research</div>
+      <div class="competency-chip"><i class="fas fa-figma"></i> Prototyping</div>
+
+      <!-- Added Strong Competencies -->
+      <div class="competency-chip"><i class="fas fa-sitemap"></i> Design Systems</div>
+      <div class="competency-chip"><i class="fas fa-layer-group"></i> Interaction Design</div>
+      <div class="competency-chip"><i class="fas fa-lightbulb"></i> Creative Problem Solving</div>
+      <div class="competency-chip"><i class="fas fa-project-diagram"></i> Information Architecture</div>
+      <div class="competency-chip"><i class="fas fa-universal-access"></i> Accessibility (a11y)</div>
+      <div class="competency-chip"><i class="fas fa-tachometer-alt"></i> Performance Optimization</div>
+      <div class="competency-chip"><i class="fas fa-server"></i> API Integration</div>
+      <div class="competency-chip"><i class="fas fa-cloud"></i> Cloud Integration (AWS/Firebase)</div>
+      <div class="competency-chip"><i class="fas fa-brain"></i> AI Tools & Prompt Engineering</div>
+      <div class="competency-chip"><i class="fas fa-photo-video"></i> Motion Graphics</div>
+      <div class="competency-chip"><i class="fas fa-palette"></i> Visual Design</div>
+      <div class="competency-chip"><i class="fas fa-pencil-ruler"></i> Wireframing</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATES: ACCURATE AND EXPANDED -->
+<section class="section-card">
+  <div class="section-card-inner">
+    <div class="section-label">
+      <div class="role-dot"></div> Certifications
+    </div>
+
+    <div class="cert-list">
+
+      <div class="cert-item">
+        <div class="cert-icon">🎓</div>
+        <div class="cert-info">
+          <div class="cert-title">Google UX Design Professional Certificate</div>
+          <div class="cert-issuer">Google / Coursera (7-course series)</div>
+          <div class="cert-desc" style="font-size:0.75rem; margin-top:6px;">
+            Foundations of UX, wireframing, prototyping, usability testing.
           </div>
         </div>
-      </section>
+        <div class="cert-date">2024</div>
+      </div>
+
+      <div class="cert-item">
+        <div class="cert-icon">🤖</div>
+        <div class="cert-info">
+          <div class="cert-title">Deep Learning Specialization</div>
+          <div class="cert-issuer">DeepLearning.AI / Coursera</div>
+          <div class="cert-desc" style="font-size:0.75rem; margin-top:6px;">
+            Neural Networks, CNNs, RNNs, AI model deployment.
+          </div>
+        </div>
+        <div class="cert-date">2025</div>
+      </div>
+
+      <div class="cert-item">
+        <div class="cert-icon">🖌️</div>
+        <div class="cert-info">
+          <div class="cert-title">Adobe Certified Professional in Visual Design</div>
+          <div class="cert-issuer">Adobe / Certiport</div>
+          <div class="cert-desc" style="font-size:0.75rem; margin-top:6px;">
+            Photoshop, Illustrator, design principles.
+          </div>
+        </div>
+        <div class="cert-date">2024</div>
+      </div>
+
+      <div class="cert-item">
+        <div class="cert-icon">📊</div>
+        <div class="cert-info">
+          <div class="cert-title">Meta Frontend Developer Professional Certificate</div>
+          <div class="cert-issuer">Meta / Coursera</div>
+          <div class="cert-desc" style="font-size:0.75rem; margin-top:6px;">
+            React, advanced CSS/JS, version control.
+          </div>
+        </div>
+        <div class="cert-date">2024</div>
+      </div>
+
+      <div class="cert-item">
+        <div class="cert-icon">🎬</div>
+        <div class="cert-info">
+          <div class="cert-title">Video Editing Mastery: Premiere Pro + After Effects</div>
+          <div class="cert-issuer">Udemy (Motion Graphics Track)</div>
+        </div>
+        <div class="cert-date">2023</div>
+      </div>
+
+      <div class="cert-item">
+        <div class="cert-icon">⚙️</div>
+        <div class="cert-info">
+          <div class="cert-title">IBM Python for Data Science</div>
+          <div class="cert-issuer">IBM / Cognitive Class</div>
+        </div>
+        <div class="cert-date">2025</div>
+      </div>
+
+      <!-- NEW ADDITIONS -->
+      <div class="cert-item">
+        <div class="cert-icon">🎨</div>
+        <div class="cert-info">
+          <div class="cert-title">UI/UX Design Internship</div>
+          <div class="cert-issuer">CodeIT, Dharan</div>
+          <div class="cert-desc" style="font-size:0.75rem; margin-top:6px;">
+            Worked on user-centered design, wireframing, usability testing, and real project workflows under mentorship.
+          </div>
+        </div>
+        <div class="cert-date">2025</div>
+      </div>
+
+      <div class="cert-item">
+        <div class="cert-icon">💻</div>
+        <div class="cert-info">
+          <div class="cert-title">Web Design & Development Certificate</div>
+          <div class="cert-issuer">CodeIT, Dharan</div>
+          <div class="cert-desc" style="font-size:0.75rem; margin-top:6px;">
+            HTML, CSS, JavaScript, responsive web design and frontend fundamentals.
+          </div>
+        </div>
+        <div class="cert-date">2025</div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       <!-- ── CTA ── -->
       <section class="section-card">
@@ -836,18 +1199,11 @@
           <div style="display:flex;flex-direction:column;gap:12px;">
             <h2 class="cta-title">Let's work together.</h2>
             <p class="cta-desc">Designing brands & digital experiences from Dharan, Nepal</p>
-          </div>
-          <div class="cta-buttons">
-            <a href="mailto:nshresthaofficial@gmail.com" class="btn-primary">
-              <div class="plus-icon" style="position:relative;width:16px;height:16px;border:1.5px solid rgba(255,255,255,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:.8;"></div>
-              Hire Me
-            </a>
-            <button class="btn-secondary" onclick="navigator.clipboard.writeText('nshresthaofficial@gmail.com');this.textContent='Copied ✓'">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M12.5 13.8H7.5C6.95 13.8 6.5 13.35 6.5 12.8V6.8C6.5 6.24 6.95 5.8 7.5 5.8H12.5C13.05 5.8 13.5 6.24 13.5 6.8V12.8C13.5 13.35 13.05 13.8 12.5 13.8Z" stroke="rgba(192,192,192,.6)" stroke-width="1.5" stroke-linecap="round"/><path d="M9.5 3.72V2.8C9.5 2.24 9.05 1.8 8.5 1.8H3.5C2.95 1.8 2.5 2.24 2.5 2.8V9.8C2.5 10.35 2.95 10.8 3.5 10.8H4.36" stroke="rgba(192,192,192,.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
-              Copy Email
-            </button>
-          </div>
         </div>
+        <button class="btn-secondary" onclick="navigator.clipboard.writeText('nshresthaofficial@gmail.com');this.textContent='Copied!'">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M12.5 13.8H7.5C6.95 13.8 6.5 13.35 6.5 12.8V6.8C6.5 6.24 6.95 5.8 7.5 5.8H12.5C13.05 5.8 13.5 6.24 13.5 6.8V12.8C13.5 13.35 13.05 13.8 12.5 13.8Z" stroke="rgba(192,192,192,.6)" stroke-width="1.5" stroke-linecap="round"/><path d="M9.5 3.72V2.8C9.5 2.24 9.05 1.8 8.5 1.8H3.5C2.95 1.8 2.5 2.24 2.5 2.8V9.8C2.5 10.35 2.95 10.8 3.5 10.8H4.36" stroke="rgba(192,192,192,.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Copy Email
+              </button>
       </section>
 
       <!-- ── SOCIALS ── -->
@@ -883,9 +1239,22 @@
         </div>
       </section>
 
+      <!-- Shop Section (Buy Me a Momo) -->
+      <section class="section-card" id="shop">
+        <div class="section-card-inner">
+          <div class="section-label"><div class="role-dot"></div> Support</div>
+          <a href="https://buymemomo.com/sthanishchal" target="_blank" class="product-item" style="background: linear-gradient(135deg, rgba(40,199,128,0.1) 0%, rgba(40,199,128,0.02) 100%); border-color: rgba(40,199,128,0.3);">
+            <div class="product-logo" style="background: var(--green-bg); border-color: var(--green);">🎁</div>
+            <div class="product-name" style="flex:1;">Buy Me a Momo →<span style="display:block; font-size:12px; color:var(--green-text);">Support my creative journey</span></div>
+            <div class="product-tag" style="background:var(--green-bg); color:var(--green-text);">Tip / Gift</div>
+            <svg class="arrow-icon" viewBox="0 0 16 14"><path d="M9.58 1.37L15.14 7M15.14 7L9.58 12.62M1.24 7L15.14 7" stroke="var(--green-text)" stroke-width="1.5"/></svg>
+          </a>
+        </div>
+      </section>
+
       <!-- ── FOOTER ── -->
       <div class="footer-card">
-        <p class="footer-line">© 2025 Nishchal Shrestha</p>
+        <p class="footer-line">© 2026 Nishchal Shrestha</p>
       </div>
 
     </div><!-- /main-card -->
