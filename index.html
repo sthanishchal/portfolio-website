@@ -19,25 +19,24 @@
   <style>
     /* ─── DESIGN TOKENS ─────────────────────────────────── */
     :root {
-      --bg-base:        #161616;
-      --bg-200:         #2c2c2c;
-      --bg-300:         #212121;
-      --bg-400:         #2b2b2b;
-      --bg-500:         #383838;
-      --outline-300:    #2b2b2b;
-      --outline-200:    #424242;
-      --text-white:     #ffffff;
-      --text-grey100:   #c0c0c0;
-      --text-grey200:   #a0a0a0;
-      --green:          #28c780;
-      --green-bg:       rgba(40,199,128,.15);
-      --green-text:     #039754;
-      --card-shadow:    0 1.2px 1.2px #0a0a0a0f, 0 5px 10px #0a0a0a0a;
-      --card-hover-shadow: 0 8px 32px rgba(0,0,0,.5);
-      --radius-sm:      6px;
-      --radius-md:      12px;
-      --radius-lg:      16px;
-      --radius-full:    999px;
+      --bg-base:      #161616;
+      --bg-200:       #2c2c2c;
+      --bg-300:       #212121;
+      --bg-400:       #2b2b2b;
+      --bg-500:       #383838;
+      --outline-300:  #2b2b2b;
+      --outline-200:  #424242;
+      --text-white:   #ffffff;
+      --text-grey100: #c0c0c0;
+      --text-grey200: #a0a0a0;
+      --green:        #28c780;
+      --green-bg:     rgba(40,199,128,.15);
+      --green-text:   #039754;
+      --card-shadow:  0 1.2px 1.2px #0a0a0a0f, 0 5px 10px #0a0a0a0a;
+      --radius-sm:    6px;
+      --radius-md:    12px;
+      --radius-lg:    16px;
+      --radius-full:  999px;
     }
 
     /* ─── RESET & BASE ──────────────────────────────────── */
@@ -80,6 +79,27 @@
       gap: 4px;
       position: relative;
     }
+    .nav-indicator {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background: rgba(247,247,247,.12);
+      transition: left .28s cubic-bezier(.4,0,.2,1);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .nav-hover-indicator {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background: rgba(247,247,247,.06);
+      transition: left .18s cubic-bezier(.4,0,.2,1), opacity .18s;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+    }
     .nav-link {
       width: 40px;
       height: 40px;
@@ -87,30 +107,21 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      opacity: .5;
-      transition: opacity .2s;
+      opacity: .45;
+      transition: opacity .2s, transform .15s;
       position: relative;
       z-index: 2;
+      cursor: pointer;
     }
-    .nav-link.active { opacity: 1; }
-    .nav-link svg { width: 20px; height: 20px; }
-    .nav-indicator {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-full);
-      background: rgba(247,247,247,.12);
-      transition: left .3s cubic-bezier(.4,0,.2,1);
-      z-index: 1;
-    }
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .nav-link:hover  { opacity: .78; transform: scale(1.08); }
+    .nav-link.active { opacity: 1; transform: scale(1); }
+    .nav-link svg    { width: 20px; height: 20px; }
+    .nav-link i      { font-size: 15px; }
+
+    .nav-right { display: flex; align-items: center; gap: 12px; }
     .hire-btn {
       height: 36px;
-      padding: 0 12px;
+      padding: 0 14px;
       background: #141414;
       border-radius: var(--radius-sm);
       border: none;
@@ -120,12 +131,13 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
-      box-shadow: 0 8px 16px rgba(23,23,23,.1), 0 1px 1px rgba(23,23,23,.1), inset 0 -1px 1px rgba(204,204,204,.04), 0 0 0 .1px rgba(0,0,0,.1);
-      transition: opacity .2s;
+      gap: 8px;
+      box-shadow: 0 8px 16px rgba(23,23,23,.1), 0 1px 1px rgba(23,23,23,.1),
+                  inset 0 -1px 1px rgba(204,204,204,.04), 0 0 0 .1px rgba(0,0,0,.1);
+      transition: opacity .2s, transform .15s;
       text-decoration: none;
     }
-    .hire-btn:hover { opacity: .85; }
+    .hire-btn:hover { opacity: .85; transform: scale(1.03); }
     .hire-btn .plus-icon {
       width: 16px;
       height: 16px;
@@ -134,7 +146,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      opacity: .8;
+      position: relative;
+      flex-shrink: 0;
     }
     .hire-btn .plus-icon::before,
     .hire-btn .plus-icon::after {
@@ -146,14 +159,14 @@
     .hire-btn .plus-icon::before { width: 8px; height: 1.5px; }
     .hire-btn .plus-icon::after  { width: 1.5px; height: 8px; }
 
-    /* ─── WRAPPER ───────────────────────────────────────── */
+    /* ─── PAGE WRAPPER ──────────────────────────────────── */
     .page-wrapper {
       max-width: 560px;
       margin: 0 auto;
       padding: 96px 0 40px;
     }
 
-    /* ─── MAIN CARD SHELL ───────────────────────────────── */
+    /* ─── MAIN CARD ─────────────────────────────────────── */
     .main-card {
       background: var(--bg-300);
       border: 1.27px solid var(--outline-300);
@@ -171,7 +184,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ─── HERO SECTION ──────────────────────────────────── */
+    /* ─── HERO ──────────────────────────────────────────── */
     .hero-section {
       padding: 0 24px 40px;
       display: flex;
@@ -213,13 +226,20 @@
       text-transform: uppercase;
       color: var(--green-text);
       text-decoration: none;
+      transition: opacity .2s;
     }
+    .available-badge:hover { opacity: .85; }
     .available-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
       background: var(--green);
       flex-shrink: 0;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.5; transform:scale(.75); }
     }
     .hero-content-row {
       display: flex;
@@ -250,44 +270,9 @@
       color: var(--text-grey100);
       max-width: 278px;
     }
-    .hero-buttons {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .btn-primary {
-      height: 36px;
-      padding: 0 12px;
-      background: #141414;
-      border-radius: var(--radius-sm);
-      color: var(--text-white);
-      font-size: 14px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 8px 16px rgba(23,23,23,.1), 0 1px 1px rgba(23,23,23,.1), inset 0 -1px 1px rgba(204,204,204,.04), 0 0 0 .1px rgba(0,0,0,.1);
-      transition: opacity .2s;
-      text-decoration: none;
-    }
-    .btn-primary:hover { opacity: .85; }
-    .btn-secondary {
-      height: 36px;
-      padding: 0 12px;
-      background: var(--bg-300);
-      border: 1px solid var(--outline-300);
-      border-radius: var(--radius-sm);
-      color: var(--text-white);
-      font-size: 14px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 1px 1px rgba(23,23,23,.04), inset 0 -1px 1px rgba(66,66,66,1), 0 0 0 .1px rgba(0,0,0,.1);
-      transition: opacity .2s;
-      cursor: pointer;
-    }
-    .btn-secondary:hover { opacity: .8; }
+    .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* Avatar */
     .hero-avatar {
       width: 178px;
       height: 178px;
@@ -302,8 +287,7 @@
       box-shadow: 0 0 0 2.22px #2c2c2c;
       object-fit: cover;
       position: absolute;
-      top: 9px;
-      left: 9px;
+      top: 9px; left: 9px;
     }
     .avatar-initials {
       width: 160px;
@@ -312,15 +296,14 @@
       border: 8.89px solid #2c2c2c;
       box-shadow: 0 0 0 2.22px #2c2c2c;
       background: linear-gradient(135deg, #1e3a5f 0%, #0f2040 100%);
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       font-size: 48px;
       font-weight: 700;
       color: white;
       position: absolute;
-      top: 9px;
-      left: 9px;
+      top: 9px; left: 9px;
       font-family: 'Inter Display', sans-serif;
     }
 
@@ -337,7 +320,6 @@
       flex-direction: column;
       gap: 24px;
     }
-    .section-card-inner.sm { padding: 16px; gap: 16px; }
     .section-header {
       display: flex;
       align-items: center;
@@ -364,9 +346,9 @@
       align-items: center;
       gap: 6px;
       text-decoration: none;
-      transition: opacity .2s;
+      transition: opacity .2s, transform .15s;
     }
-    .view-all-btn:hover { opacity: .8; }
+    .view-all-btn:hover { opacity: .8; transform: scale(1.03); }
 
     /* ─── PROJECT ITEMS ─────────────────────────────────── */
     .project-list { display: flex; flex-direction: column; gap: 12px; }
@@ -380,241 +362,127 @@
       gap: 16px;
       text-decoration: none;
       color: inherit;
-      transition: border-color .2s, transform .2s;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
       position: relative;
     }
-    .project-item:hover { border-color: rgba(255,255,255,.25); transform: translateX(4px); }
+    .project-item:hover {
+      border-color: rgba(255,255,255,.22);
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
+    }
+
+    /* Project logo — icon on colored background */
     .project-logo {
       width: 64px;
       height: 64px;
-      border-radius: 64px;
-      background: #f7f7f7;
-      border: 1px solid #f0f0f0;
-      box-shadow: 0 .8px .8px rgba(0,0,0,.08), 0 3.2px 6.4px rgba(0,0,0,.04);
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
       flex-shrink: 0;
+      font-size: 26px;
+      transition: transform .2s;
+      border: 1px solid rgba(255,255,255,.07);
     }
-    .project-info { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .project-item:hover .project-logo { transform: scale(1.06); }
+
+    .project-logo i { font-size: 26px; }
+
+    .project-info { flex: 1; display: flex; flex-direction: column; gap: 5px; }
     .project-name {
       font-family: 'Inter Display', sans-serif;
-      font-size: 20px;
-      font-weight: 400;
+      font-size: 18px;
+      font-weight: 500;
       letter-spacing: -.2px;
       color: var(--text-white);
     }
-    .project-meta { font-size: 18px; color: var(--text-grey100); line-height: 170%; }
-    .chevron-right {
-      width: 24px;
-      height: 24px;
-      opacity: .5;
-      flex-shrink: 0;
-    }
-
-    /* ─── PRODUCT ITEMS ─────────────────────────────────── */
-    .product-list { display: flex; flex-direction: column; gap: 12px; }
-    .product-item {
-      background: var(--bg-400);
-      border: 1px solid var(--outline-200);
-      border-radius: var(--radius-md);
-      padding: 20px 16px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      text-decoration: none;
-      color: inherit;
-      transition: border-color .2s, transform .2s;
-      position: relative;
-    }
-    .product-item:hover { border-color: rgba(255,255,255,.25); transform: translateX(4px); }
-    .product-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 40px;
-      background: #f7f7f7;
-      border: .8px solid #f0f0f0;
-      box-shadow: 0 .8px .8px rgba(102,109,128,.08), 0 3.2px 6.4px rgba(102,109,128,.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-    .product-name {
-      font-family: 'Inter Display', sans-serif;
-      font-size: 20px;
-      font-weight: 400;
-      letter-spacing: -.2px;
-      flex: 1;
-    }
-    .product-tag {
-      background: var(--outline-200);
+    .project-meta { font-size: 13px; color: var(--text-grey200); line-height: 160%; }
+    .project-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+    .project-tag-pill {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
       border-radius: var(--radius-full);
-      padding: 6px 8px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: .96px;
-      text-transform: uppercase;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 500;
       color: var(--text-grey200);
-      margin-right: 32px;
+      letter-spacing: .3px;
     }
-    .arrow-icon {
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
-      opacity: .5;
-    }
+    .chevron-right { width: 20px; height: 20px; opacity: .35; flex-shrink: 0; transition: opacity .2s, transform .2s; }
+    .project-item:hover .chevron-right { opacity: .8; transform: translateX(3px); }
 
-    /* ─── CTA CARD ──────────────────────────────────────── */
-    .cta-card {
-      padding: 48px 8px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-    }
-    .cta-title {
-      font-family: 'Inter Display', sans-serif;
-      font-size: 36px;
-      font-weight: 600;
-      color: var(--text-white);
-    }
-    .cta-desc {
-      font-family: 'Inter Display', sans-serif;
-      font-size: 18px;
-      color: var(--text-grey100);
-      line-height: 170%;
-    }
-    .cta-buttons { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-
-    /* ─── SOCIALS CARD ──────────────────────────────────── */
-    .socials-section {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      padding: 24px;
-    }
-    .social-buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .social-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 80px;
-      background: var(--bg-300);
-      border: 1px solid var(--outline-300);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      color: var(--text-white);
-      font-size: 16px;
-      box-shadow: 0 1px 1px rgba(23,23,23,.04), inset 0 -1px 1px rgba(66,66,66,1), 0 0 0 .1px rgba(0,0,0,.1);
-      transition: opacity .2s, transform .2s;
-    }
-    .social-btn:hover { opacity: .8; transform: scale(1.1); }
-
-    /* ─── FOOTER CARD ───────────────────────────────────── */
-    .footer-card {
-      background: var(--bg-400);
-      border-radius: var(--radius-md);
-      padding: 40px 24px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .footer-line {
-      font-size: 14px;
-      color: var(--text-grey200);
-      letter-spacing: .14px;
-      line-height: 160%;
-    }
-    .footer-line a { color: var(--text-white); text-decoration: underline; opacity: .8; }
-    .footer-line a:hover { opacity: 1; }
-
-    /* ─── RESPONSIVE ────────────────────────────────────── */
-    @media (max-width: 600px) {
-      .page-wrapper { padding: 80px 8px 8px; }
-      .hero-section { padding: 0 16px 40px; }
-      .hero-top-row { padding: 0; }
-      .hero-content-row { flex-direction: column; align-items: center; gap: 24px; }
-      .hero-left { align-items: center; text-align: center; }
-      .hero-desc { max-width: 100%; }
-      .hero-avatar { width: 178px; height: 178px; }
-      .hero-name { font-size: 28px; }
-      .role-badge { font-size: 16px; }
-      .nav-wrapper { top: 8px; }
-      .section-card-inner { padding: 16px; }
-    }
-
-    /* ─── TOOLTIP ───────────────────────────────────────── */
-    [data-tooltip] { position: relative; }
-    [data-tooltip]::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--bg-300);
-      border: 1px solid var(--outline-300);
-      color: var(--text-white);
-      font-size: 12px;
-      white-space: nowrap;
-      padding: 4px 8px;
-      border-radius: 4px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .2s;
-    }
-    [data-tooltip]:hover::after { opacity: 1; }
-
-    /* ─── EXPERIENCE CARD ───────────────────────────────── */
-    .exp-list { display: flex; flex-direction: column; gap: 8px; }
-    .exp-item {
+    /* ─── PRODUCT / DIGITAL PRESENCE ───────────────────── */
+    .product-list { display: flex; flex-direction: column; gap: 10px; }
+    .product-item {
       background: var(--bg-400);
       border: 1px solid var(--outline-200);
       border-radius: var(--radius-md);
       padding: 16px;
       display: flex;
+      align-items: center;
       gap: 14px;
-      align-items: flex-start;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      position: relative;
     }
-    .exp-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--bg-300);
-      border: 1px solid var(--outline-300);
+    .product-item:hover {
+      border-color: rgba(255,255,255,.22);
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
+    }
+
+    /* Brand logo pill */
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
+      font-size: 20px;
       flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,.1);
+      transition: transform .2s;
     }
-    .exp-info { flex: 1; }
-    .exp-title { font-size: 14px; font-weight: 600; color: var(--text-white); margin-bottom: 2px; }
-    .exp-company { font-size: 12px; color: var(--text-grey200); }
-    .exp-period {
+    .product-item:hover .brand-logo { transform: scale(1.06); }
+
+    .product-info { flex: 1; }
+    .product-name {
+      font-family: 'Inter Display', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -.1px;
+      color: var(--text-white);
+    }
+    .product-sub {
       font-size: 12px;
       color: var(--text-grey200);
-      background: var(--bg-300);
-      border: 1px solid var(--outline-300);
-      border-radius: var(--radius-full);
-      padding: 3px 10px;
-      white-space: nowrap;
-      flex-shrink: 0;
       margin-top: 2px;
     }
-      /* Experience, Education, Certificates unified */
+    .product-tag {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-full);
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--text-grey200);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .arrow-icon {
+      width: 14px;
+      height: 14px;
+      opacity: .4;
+      flex-shrink: 0;
+      transition: opacity .2s, transform .2s;
+    }
+    .product-item:hover .arrow-icon { opacity: .8; transform: translateX(3px); }
+
+    /* ─── EXP / EDU / CERT ──────────────────────────────── */
     .exp-list, .edu-list, .cert-list { display: flex; flex-direction: column; gap: 10px; }
     .exp-item, .edu-item, .cert-item {
       background: var(--bg-400);
@@ -625,106 +493,140 @@
       gap: 14px;
       align-items: flex-start;
       flex-wrap: wrap;
+      transition: border-color .2s, transform .15s;
     }
+    .exp-item:hover, .edu-item:hover, .cert-item:hover {
+      border-color: rgba(255,255,255,.16);
+      transform: translateX(2px);
+    }
+
+    /* Icon badges */
     .exp-icon, .edu-icon, .cert-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--bg-300);
-      border: 1px solid var(--outline-300);
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 16px;
       flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,.1);
     }
     .exp-info, .edu-info, .cert-info { flex: 1; min-width: 140px; }
-    .exp-title, .edu-title, .cert-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .exp-title, .edu-title, .cert-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; color: var(--text-white); }
     .exp-company, .edu-institute, .cert-issuer { font-size: 12px; color: var(--text-grey200); }
+    .exp-desc-text, .cert-desc { font-size: 11.5px; color: var(--text-grey200); margin-top: 5px; line-height: 155%; }
     .exp-period, .edu-year, .cert-date {
-      font-size: 12px;
+      font-size: 11px;
+      font-weight: 500;
       color: var(--text-grey200);
       background: var(--bg-300);
       border: 1px solid var(--outline-300);
       border-radius: var(--radius-full);
       padding: 3px 10px;
       white-space: nowrap;
+      flex-shrink: 0;
+      align-self: flex-start;
     }
-    /* Skills Grid */
-     /* skills grid & skill advertised (core competencies) */
-    .skills-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 4px;
-    }
-    .skill-tag {
-      background: var(--bg-500);
-      border: 1px solid var(--outline-200);
-      border-radius: var(--radius-full);
-      padding: 8px 16px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-grey100);
-      transition: all 0.2s;
-      letter-spacing: -0.2px;
-    }
-    .skill-tag:hover {
-      border-color: var(--green);
-      color: var(--green-text);
-      background: var(--green-bg);
-      transform: translateY(-2px);
-    }
-    .competency-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+
+    /* ─── SKILLS ────────────────────────────────────────── */
+    .competency-list { display: flex; flex-wrap: wrap; gap: 8px; }
     .competency-chip {
-      background: rgba(40,199,128,0.08);
-      border: 1px solid rgba(40,199,128,0.25);
+      background: rgba(40,199,128,.08);
+      border: 1px solid rgba(40,199,128,.22);
       border-radius: var(--radius-full);
-      padding: 6px 14px;
+      padding: 6px 13px;
       font-size: 13px;
       font-weight: 500;
       color: var(--green-text);
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
+      transition: background .2s, transform .15s;
     }
-    .competency-chip i { font-size: 12px; opacity: 0.8; }
+    .competency-chip:hover { background: rgba(40,199,128,.16); transform: translateY(-2px); }
+    .competency-chip i { font-size: 11px; opacity: .8; }
 
+    /* ─── CTA ───────────────────────────────────────────── */
+    .cta-card {
+      padding: 48px 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .cta-title {
+      font-family: 'Inter Display', sans-serif;
+      font-size: clamp(28px,7vw,36px);
+      font-weight: 600;
+      color: var(--text-white);
+    }
+    .cta-desc {
+      font-size: 15px;
+      color: var(--text-grey100);
+      line-height: 160%;
+      max-width: 300px;
+    }
+    .btn-secondary {
+      height: 38px;
+      padding: 0 16px;
+      background: var(--bg-400);
+      border: 1px solid var(--outline-200);
+      border-radius: var(--radius-sm);
+      color: var(--text-white);
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s, border-color .2s;
+    }
+    .btn-secondary:hover { opacity: .85; transform: scale(1.03); border-color: rgba(255,255,255,.25); }
 
- /* CTA & Footer */
-    .cta-card { padding: 48px 8px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; }
-    .cta-title { font-family: 'Inter Display', sans-serif; font-size: clamp(28px, 7vw, 36px); font-weight: 600; }
-    .cta-desc { font-size: 16px; color: var(--text-grey100); line-height: 160%; max-width: 320px; margin: 0 auto; }
-    .socials-section { display: flex; flex-direction: column; gap: 24px; padding: 24px; }
-    .social-buttons { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    /* ─── SOCIALS ───────────────────────────────────────── */
+    .socials-section { display: flex; flex-direction: column; gap: 20px; padding: 24px; }
+    .social-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
     .social-btn {
       width: 40px;
       height: 40px;
-      border-radius: 80px;
-      background: var(--bg-300);
-      border: 1px solid var(--outline-300);
+      border-radius: var(--radius-full);
       display: flex;
       align-items: center;
       justify-content: center;
       text-decoration: none;
       color: var(--text-white);
       font-size: 16px;
-      transition: opacity .2s, transform .2s;
+      border: 1px solid var(--outline-300);
+      transition: opacity .2s, transform .2s, background .2s, border-color .2s;
     }
-    .social-btn:hover { opacity: .8; transform: scale(1.1); background: var(--bg-500); }
+    .social-btn:hover { opacity: 1; transform: scale(1.12); border-color: rgba(255,255,255,.25); }
+
+    /* Branded social hover colors */
+    .social-btn.fb:hover        { background: #1877F2; border-color: #1877F2; }
+    .social-btn.ig:hover        { background: linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7); border-color: #ee2a7b; }
+    .social-btn.li:hover        { background: #0A66C2; border-color: #0A66C2; }
+    .social-btn.gh:hover        { background: #333; border-color: #555; }
+    .social-btn.be:hover        { background: #0057ff; border-color: #0057ff; }
+    .social-btn.dc:hover        { background: #5865F2; border-color: #5865F2; }
+    .social-btn.yt:hover        { background: #FF0000; border-color: #FF0000; }
+
+    /* All social icons start at a muted bg */
+    .social-btn { background: var(--bg-500); }
+
+    /* ─── FOOTER ────────────────────────────────────────── */
     .footer-card {
       background: var(--bg-400);
       border-radius: var(--radius-md);
-      padding: 40px 24px;
+      padding: 32px 24px;
       text-align: center;
     }
-    .footer-line { font-size: 13px; color: var(--text-grey200); letter-spacing: .14px; }
+    .footer-line { font-size: 13px; color: var(--text-grey200); letter-spacing: .2px; line-height: 170%; }
+    .footer-line a { color: var(--text-white); text-decoration: underline; opacity: .7; }
+    .footer-line a:hover { opacity: 1; }
 
-    /* Tooltip */
+    /* ─── TOOLTIP ───────────────────────────────────────── */
     [data-tooltip] { position: relative; }
     [data-tooltip]::after {
       content: attr(data-tooltip);
@@ -732,592 +634,697 @@
       bottom: calc(100% + 8px);
       left: 50%;
       transform: translateX(-50%);
-      background: var(--bg-300);
-      border: 1px solid var(--outline-300);
+      background: var(--bg-400);
+      border: 1px solid var(--outline-200);
       color: var(--text-white);
-      font-size: 12px;
+      font-size: 11px;
+      font-weight: 500;
       white-space: nowrap;
       padding: 4px 8px;
-      border-radius: 4px;
+      border-radius: 5px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity .2s;
+      transition: opacity .18s;
+      box-shadow: 0 4px 12px rgba(0,0,0,.3);
     }
     [data-tooltip]:hover::after { opacity: 1; }
 
-    /* Responsive */
+    /* ─── RESPONSIVE ────────────────────────────────────── */
     @media (max-width: 600px) {
       .page-wrapper { padding: 80px 8px 8px; }
       .hero-section { padding: 0 16px 40px; gap: 24px; }
       .hero-content-row { flex-direction: column; align-items: center; text-align: center; }
       .hero-left { align-items: center; }
-      .hero-buttons { justify-content: center; }
+      .hero-desc { max-width: 100%; }
       .hero-name { font-size: 28px; }
       .role-badge { font-size: 16px; }
       .nav-wrapper { top: 8px; width: calc(100% - 16px); }
       .section-card-inner { padding: 16px; }
-      .exp-item, .edu-item, .cert-item { flex-direction: column; align-items: flex-start; }
+      .exp-item, .edu-item, .cert-item { flex-direction: column; }
       .exp-period, .edu-year, .cert-date { align-self: flex-start; }
     }
     @media (max-width: 420px) {
       .nav { height: 56px; padding: 0 10px; }
       .nav-link { width: 34px; height: 34px; }
-      .nav-indicator { width: 34px; height: 34px; }
+      .nav-indicator, .nav-hover-indicator { width: 34px; height: 34px; }
       .hero-avatar { width: 148px; height: 148px; }
-      .hero-avatar img { width: 132px; height: 132px; top: 8px; left: 8px; border-width: 6px; }
+      .hero-avatar img, .avatar-initials { width: 132px; height: 132px; top: 8px; left: 8px; border-width: 6px; }
+    }
+
+    /* ─── DIVIDER ───────────────────────────────────────── */
+    .list-divider {
+      height: 1px;
+      background: var(--outline-200);
+      margin: 0 -24px;
+      opacity: .5;
     }
   </style>
 </head>
+
 <audio id="bgMusic" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
+
 <body>
 
-  <!-- ── NAV ── -->
-  <div class="nav-wrapper">
-    <nav class="nav">
-      <div class="nav-links" id="navLinks">
-        <div class="nav-indicator" id="navIndicator"></div>
+<!-- ── NAV ── -->
+<div class="nav-wrapper">
+  <nav class="nav">
+    <div class="nav-links" id="navLinks">
+      <div class="nav-hover-indicator" id="navHoverIndicator"></div>
+      <div class="nav-indicator"       id="navIndicator"></div>
 
-        <a href="#hero" class="nav-link active" data-tooltip="Home" onclick="setActive(this)">
-          <svg viewBox="0 0 32 32" fill="none"><path d="M13.5 6.4l.58.82M15.35 5.35l-.24-.97M18.47 6.4l-.58.82M16.65 5.35l.24-.97M8.12 25.7l.45-.89M6.96 24.54l.89-.45M25.04 24.54l-.89-.45M23.88 25.7l-.45-.89M25.22 11.91l.96-.28M23.54 10.01l.58-.82M24.76 11.02l.78-.62M6.78 11.91l-.96-.28M8.47 10.01l-.58-.82M7.24 11.02l-.78-.62M13.33 20.33C12.78 20.33 12.33 20.78 12.33 21.33 12.33 21.89 12.78 22.33 13.33 22.33ZM18.67 22.33C19.22 22.33 19.67 21.89 19.67 21.33 19.67 20.78 19.22 20.33 18.67 20.33ZM24.33 13.49L24.33 21.73 26.33 21.73 26.33 13.49ZM21.07 25L10.93 25 10.93 27 21.07 27ZM7.67 21.73L7.67 13.49 5.67 13.49 5.67 21.73ZM9.04 10.83L14.11 7.23 12.95 5.6 7.89 9.2ZM17.89 7.23L22.96 10.83 24.11 9.2 19.05 5.6ZM13.33 22.33L18.67 22.33 18.67 20.33 13.33 20.33Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+      <a href="#hero"       class="nav-link active" data-section="hero"       data-tooltip="Home">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M13.5 6.4l.58.82M15.35 5.35l-.24-.97M18.47 6.4l-.58.82M16.65 5.35l.24-.97M8.12 25.7l.45-.89M6.96 24.54l.89-.45M25.04 24.54l-.89-.45M23.88 25.7l-.45-.89M25.22 11.91l.96-.28M23.54 10.01l.58-.82M24.76 11.02l.78-.62M6.78 11.91l-.96-.28M8.47 10.01l-.58-.82M7.24 11.02l-.78-.62M13.33 20.33C12.78 20.33 12.33 20.78 12.33 21.33 12.33 21.89 12.78 22.33 13.33 22.33ZM18.67 22.33C19.22 22.33 19.67 21.89 19.67 21.33 19.67 20.78 19.22 20.33 18.67 20.33ZM24.33 13.49L24.33 21.73 26.33 21.73 26.33 13.49ZM21.07 25L10.93 25 10.93 27 21.07 27ZM7.67 21.73L7.67 13.49 5.67 13.49 5.67 21.73ZM9.04 10.83L14.11 7.23 12.95 5.6 7.89 9.2ZM17.89 7.23L22.96 10.83 24.11 9.2 19.05 5.6ZM13.33 22.33L18.67 22.33 18.67 20.33 13.33 20.33Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
 
-        <a href="#projects" class="nav-link" data-tooltip="Projects" onclick="setActive(this)">
-          <svg viewBox="0 0 32 32" fill="none"><rect x="4.33" y="5.67" width="23.33" height="18.67" rx="1.67" stroke="currentColor" stroke-width="2"/><line x1="5.67" y1="13.33" x2="27.67" y2="13.33" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="8.67" cy="10" r="1" fill="currentColor"/><circle cx="11.33" cy="10" r="1" fill="currentColor"/><circle cx="14" cy="10" r="1" fill="currentColor"/></svg>
-        </a>
+      <a href="#projects"   class="nav-link" data-section="projects"   data-tooltip="Projects">
+        <svg viewBox="0 0 32 32" fill="none"><rect x="4.33" y="5.67" width="23.33" height="18.67" rx="1.67" stroke="currentColor" stroke-width="2"/><line x1="5.67" y1="13.33" x2="27.67" y2="13.33" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="8.67" cy="10" r="1" fill="currentColor"/><circle cx="11.33" cy="10" r="1" fill="currentColor"/><circle cx="14" cy="10" r="1" fill="currentColor"/></svg>
+      </a>
 
-        <a href="#experience" class="nav-link" data-tooltip="Experience" onclick="setActive(this)">
-          <svg viewBox="0 0 32 32" fill="none"><path d="M7.32 13.62C7.51 12.12 8.78 11 10.29 11H21.7C23.21 11 24.49 12.12 24.68 13.62L26.04 24.29C26.15 25.14 25.88 26 25.31 26.65C24.74 27.3 23.92 27.67 23.06 27.67H8.94C8.08 27.67 7.26 27.3 6.69 26.65C6.12 26 5.85 25.14 5.96 24.29L7.32 13.62Z" stroke="currentColor" stroke-width="2"/><path d="M12 14.67C12.74 14.67 13.33 15.26 13.33 16V16.01C13.33 16.75 12.74 17.35 12 17.35C11.26 17.35 10.67 16.75 10.67 16.01V16C10.67 15.26 11.26 14.67 12 14.67ZM20 14.67C20.74 14.67 21.33 15.26 21.33 16V16.01C21.33 16.75 20.74 17.35 20 17.35C19.26 17.35 18.67 16.75 18.67 16.01V16C18.67 15.26 19.26 14.67 20 14.67ZM16 6.41C14.41 6.41 13.08 7.74 13.08 9.44V10.67H10.92V9.44C10.92 6.6 13.17 4.25 16 4.25C18.83 4.25 21.08 6.6 21.08 9.44V10.67H18.92V9.44C18.92 7.74 17.59 6.41 16 6.41Z" fill="currentColor"/></svg>
-        </a>
+      <a href="#experience" class="nav-link" data-section="experience" data-tooltip="Experience">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M7.32 13.62C7.51 12.12 8.78 11 10.29 11H21.7C23.21 11 24.49 12.12 24.68 13.62L26.04 24.29C26.15 25.14 25.88 26 25.31 26.65C24.74 27.3 23.92 27.67 23.06 27.67H8.94C8.08 27.67 7.26 27.3 6.69 26.65C6.12 26 5.85 25.14 5.96 24.29L7.32 13.62Z" stroke="currentColor" stroke-width="2"/><path d="M12 14.67C12.74 14.67 13.33 15.26 13.33 16V16.01C13.33 16.75 12.74 17.35 12 17.35C11.26 17.35 10.67 16.75 10.67 16.01V16C10.67 15.26 11.26 14.67 12 14.67ZM20 14.67C20.74 14.67 21.33 15.26 21.33 16V16.01C21.33 16.75 20.74 17.35 20 17.35C19.26 17.35 18.67 16.75 18.67 16.01V16C18.67 15.26 19.26 14.67 20 14.67ZM16 6.41C14.41 6.41 13.08 7.74 13.08 9.44V10.67H10.92V9.44C10.92 6.6 13.17 4.25 16 4.25C18.83 4.25 21.08 6.6 21.08 9.44V10.67H18.92V9.44C18.92 7.74 17.59 6.41 16 6.41Z" fill="currentColor"/></svg>
+      </a>
 
-        <a href="#about" class="nav-link" data-tooltip="About" onclick="setActive(this)">
-          <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="10.67" stroke="currentColor" stroke-width="2"/><path d="M16 9.67C14.34 9.67 13 11.01 13 12.67C13 14.32 14.34 15.67 16 15.67C17.66 15.67 19 14.32 19 12.67C19 11.01 17.66 9.67 16 9.67ZM16 19C13.01 19 10.39 20.43 8.81 22.59C8.48 23.04 7.86 23.13 7.41 22.81C6.96 22.48 6.87 21.86 7.19 21.41C9.14 18.74 12.37 17 16 17C19.63 17 22.86 18.74 24.81 21.41C25.13 21.86 25.04 22.48 24.59 22.81C24.14 23.13 23.52 23.04 23.19 22.59C21.61 20.43 18.99 19 16 19Z" fill="currentColor"/></svg>
-        </a>
+      <a href="#about" class="nav-link" data-section="about" data-tooltip="About">
+        <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="10.67" stroke="currentColor" stroke-width="2"/><path d="M16 9.67C14.34 9.67 13 11.01 13 12.67C13 14.32 14.34 15.67 16 15.67C17.66 15.67 19 14.32 19 12.67C19 11.01 17.66 9.67 16 9.67ZM16 19C13.01 19 10.39 20.43 8.81 22.59C8.48 23.04 7.86 23.13 7.41 22.81C6.96 22.48 6.87 21.86 7.19 21.41C9.14 18.74 12.37 17 16 17C19.63 17 22.86 18.74 24.81 21.41C25.13 21.86 25.04 22.48 24.59 22.81C24.14 23.13 23.52 23.04 23.19 22.59C21.61 20.43 18.99 19 16 19Z" fill="currentColor"/></svg>
+      </a>
 
-      <a href="javascript:void(0)" 
-   id="musicToggle"
-   class="nav-link" 
-   data-tooltip="Music" 
-   onclick="toggleMusic(); setActive(this)">
+      <a href="javascript:void(0)" id="musicToggle" class="nav-link" data-tooltip="Music" onclick="toggleMusic()">
+        <i class="fas fa-music"></i>
+      </a>
+    </div>
 
-  <!-- Play Icon -->
-  <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M8 5v14l11-7z"/>
-  </svg>
-
-  <!-- Pause Icon -->
-  <svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
-    <path d="M6 5h4v14H6zm8 0h4v14h-4z"/>
-  </svg>
-
-</a>
-
-      </div>
-
-      <div class="nav-right">
-        <a href="mailto:nshresthaofficial@gmail.com" class="hire-btn">
-          <div class="plus-icon" style="position:relative;"></div>
-          Hire Me
-        </a>
-      </div>
-    </nav>
-  </div>
-
-  <!-- ── PAGE ── -->
-  <div class="page-wrapper">
-    <div class="main-card">
-
-      <!-- ── HERO ── -->
-      <section class="hero-section" id="hero">
-        <div class="hero-top-row">
-          <div class="role-badge">
-            <div class="role-dot"></div>
-            CREATIVE DESIGNER
-          </div>
-          <a href="mailto:nshresthaofficial@gmail.com" class="available-badge">
-            <div class="available-dot"></div>
-            Available for Work
-          </a>
-        </div>
-
-        <div class="hero-content-row">
-          <div class="hero-left">
-            <div class="hero-text">
-              <h1 class="hero-name">I'm Nishchal Shrestha</h1>
-              <p class="hero-desc">UI/UX Designer & Web Developer from Dharan, Nepal.
-              </p>Currently Working at Code&nbsp;IT.</p>
-            </div>
-            <div class="hero-buttons">
-            </div>
-          </div>
-          <div class="hero-avatar">
-  <img src="profile.png" alt="Nishchal Shrestha">
+    <div class="nav-right">
+      <a href="mailto:nshresthaofficial@gmail.com" class="hire-btn">
+        <div class="plus-icon"></div>
+        Hire Me
+      </a>
+    </div>
+  </nav>
 </div>
+
+<!-- ── PAGE ── -->
+<div class="page-wrapper">
+  <div class="main-card">
+
+    <!-- ── HERO ── -->
+    <section class="hero-section" id="hero">
+      <div class="hero-top-row">
+        <div class="role-badge">
+          <div class="role-dot"></div>
+          CREATIVE DESIGNER
         </div>
-      </section>
-
-       <!-- Projects (Enhanced with real GitHub repos) -->
-      <section class="section-card" id="projects">
-        <div class="section-card-inner">
-          <div class="section-header">
-            <div class="section-label"><div class="role-dot"></div> Projects</div>
-            <a href="https://github.com/sthanishchal" target="_blank" class="view-all-btn">View All <svg width="11" height="10" viewBox="0 0 11 10"><path d="M6.2 1.25L9.8 5M9.8 5L6.2 8.75M0.8 5L9.8 5" stroke="currentColor" stroke-width="1.5"/></svg></a>
-          </div>
-          <div class="project-list">
-            <a href="https://github.com/sthanishchal/Dog-Breed-Classifier" target="_blank" class="project-item">
-              <div class="project-logo">🐾</div>
-              <div class="project-info"><div class="project-name">Dog Breed Classifier</div><div class="project-meta">AI • Deep Learning • CNN • Python</div></div>
-              <svg class="chevron-right" viewBox="0 0 9 15"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(110,110,110,1)" stroke-width="1.8"/></svg>
-            </a>
-            <a href="https://github.com/sthanishchal/Grocery-" target="_blank" class="project-item">
-              <div class="project-logo">🛒</div>
-              <div class="project-info"><div class="project-name">Grocery Bill Manager</div><div class="project-meta">Python • Automation • Scripting</div></div>
-              <svg class="chevron-right" viewBox="0 0 9 15"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(110,110,110,1)" stroke-width="1.8"/></svg>
-            </a>
-            <a href="https://github.com/sthanishchal/Flower-blooming" target="_blank" class="project-item">
-              <div class="project-logo">🌸</div>
-              <div class="project-info"><div class="project-name">Flower Bloom Animation</div><div class="project-meta">SCSS • CSS Art • Creative Coding</div></div>
-              <svg class="chevron-right" viewBox="0 0 9 15"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(110,110,110,1)" stroke-width="1.8"/></svg>
-            </a>
-            <a href="https://www.behance.net/nishchashresth" target="_blank" class="project-item">
-              <div class="project-logo">🎨</div>
-              <div class="project-info"><div class="project-name">UI/UX Case Studies</div><div class="project-meta">Figma • User Research • Prototyping</div></div>
-              <svg class="chevron-right" viewBox="0 0 9 15"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(110,110,110,1)" stroke-width="1.8"/></svg>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Experience (detailed from your PDF) -->
-<section class="section-card">
-  <div class="section-card-inner">
-    <div class="section-label">
-      <div class="role-dot"></div> Professional Journey
-    </div>
-
-    <div class="exp-list">
-
-      <div class="exp-item">
-        <div class="exp-icon">📢</div>
-        <div class="exp-info">
-          <div class="exp-title">Marketing Manager / Video Editor / Tutor</div>
-          <div class="exp-company">CODE IT, Dharan</div>
-          <div class="exp-desc">
-            Content strategy, storytelling, visual campaigns, and helping students master design tools. Currently serving as a core creative lead.
-          </div>
-        </div>
-        <div class="exp-period">Dec 2025 – Present</div>
+        <a href="mailto:nshresthaofficial@gmail.com" class="available-badge">
+          <div class="available-dot"></div>
+          Available for Work
+        </a>
       </div>
-
-      <div class="exp-item">
-        <div class="exp-icon">▶️</div>
-        <div class="exp-info">
-          <div class="exp-title">Content Creator (YouTube)</div>
-          <div class="exp-company">sthanishchalTV – 9+ years of consistency</div>
-          <div class="exp-desc">
-            Digital storytelling, audience engagement, long-term brand building.
+      <div class="hero-content-row">
+        <div class="hero-left">
+          <div class="hero-text">
+            <h1 class="hero-name">I'm Nishchal Shrestha</h1>
+            <p class="hero-desc">UI/UX Designer & Web Developer from Dharan, Nepal. Currently working at Code&nbsp;IT.</p>
           </div>
+          <div class="hero-buttons"></div>
         </div>
-        <div class="exp-period">2017 – Present</div>
+        <div class="hero-avatar">
+          <img src="profile.png" alt="Nishchal Shrestha"
+               onerror="this.style.display='none'; document.querySelector('.avatar-initials').style.display='flex';">
+          <div class="avatar-initials">NS</div>
+        </div>
       </div>
+    </section>
 
-      <div class="exp-item">
-        <div class="exp-icon">🎨</div>
-        <div class="exp-info">
-          <div class="exp-title">UI/UX Design Intern</div>
-          <div class="exp-company">CODE IT, Dharan</div>
-          <div class="exp-desc">
-            Real-world user research, high-fidelity prototyping, design systems with Figma.
-          </div>
-        </div>
-        <div class="exp-period">Mar–May 2025</div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-icon">✨</div>
-        <div class="exp-info">
-          <div class="exp-title">Graphic Design Intern</div>
-          <div class="exp-company">CodeAlpha, Lucknow</div>
-          <div class="exp-desc">
-            Designed logos, posters, and brand identity assets; strengthened visual communication.
-          </div>
-        </div>
-        <div class="exp-period">Nov–Dec 2024</div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-icon">🏛️</div>
-        <div class="exp-info">
-          <div class="exp-title">Executive Member</div>
-          <div class="exp-company">CSIT Association of Nepal – Purwanchal</div>
-          <div class="exp-desc">
-            Organized tech-talks, co-led a 6-day Web Development Bootcamp, coordinated teams.
-          </div>
-        </div>
-        <div class="exp-period">Mar–Dec 2023</div>
-      </div>
-
-      <!-- NEW ADDITION -->
-      <div class="exp-item">
-        <div class="exp-icon">🤝</div>
-        <div class="exp-info">
-          <div class="exp-title">General Member</div>
-          <div class="exp-company">CSIT Association of Nepal – Purwanchal</div>
-          <div class="exp-desc">
-            Participated in events, workshops, and collaborative tech activities, building foundational leadership and teamwork experience.
-          </div>
-        </div>
-        <div class="exp-period">Dec 2022 – Mar 2023</div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-      <!-- ── PRODUCTS / LINKS ── -->
-      <section class="section-card" id="products">
-        <div class="section-card-inner">
-          <div class="section-header">
-            <div class="section-label">
-              <div class="role-dot"></div>
-              Digital Presence
-            </div>
-          </div>
-          <div class="product-list">
-            <a href="https://github.com/sthanishchal" target="_blank" class="product-item">
-              <div class="product-logo">🐙</div>
-              <div class="product-name">GitHub</div>
-              <div class="product-tag">Code Repos</div>
-              <svg class="arrow-icon" viewBox="0 0 16 14" fill="none"><path d="M9.58 1.37L15.14 7M15.14 7L9.58 12.62M1.24 7L15.14 7" stroke="rgba(102,102,102,1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="https://www.behance.net/nishchashresth" target="_blank" class="product-item">
-              <div class="product-logo">🎭</div>
-              <div class="product-name">Behance Portfolio</div>
-              <div class="product-tag">Design Work</div>
-              <svg class="arrow-icon" viewBox="0 0 16 14" fill="none"><path d="M9.58 1.37L15.14 7M15.14 7L9.58 12.62M1.24 7L15.14 7" stroke="rgba(102,102,102,1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="https://www.youtube.com/@sthanishchalTV" target="_blank" class="product-item">
-              <div class="product-logo">▶️</div>
-              <div class="product-name">YouTube Channel</div>
-              <div class="product-tag">Since 2017</div>
-              <svg class="arrow-icon" viewBox="0 0 16 14" fill="none"><path d="M9.58 1.37L15.14 7M15.14 7L9.58 12.62M1.24 7L15.14 7" stroke="rgba(102,102,102,1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="https://www.linkedin.com/in/sthanishchal/" target="_blank" class="product-item">
-              <div class="product-logo">💼</div>
-              <div class="product-name">LinkedIn</div>
-              <div class="product-tag">Professional</div>
-              <svg class="arrow-icon" viewBox="0 0 16 14" fill="none"><path d="M9.58 1.37L15.14 7M15.14 7L9.58 12.62M1.24 7L15.14 7" stroke="rgba(102,102,102,1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-          </div>
-        </div>
-      </section>
-
-       <!-- Education (as per your details) -->
-<section class="section-card">
-  <div class="section-card-inner">
-    <div class="section-label">
-      <div class="role-dot"></div> Education
-    </div>
-
-    <div class="edu-list">
-
-      <div class="edu-item">
-        <div class="edu-icon">📖</div>
-        <div class="edu-info">
-          <div class="edu-title">Bachelor's in Computer Science</div>
-          <div class="edu-institute">Birendra Memorial College (TU)</div>
-        </div>
-        <div class="edu-year">2020 – 2025</div>
-      </div>
-
-      <div class="edu-item">
-        <div class="edu-icon">🏫</div>
-        <div class="edu-info">
-          <div class="edu-title">Higher Secondary (+2) – Computer Science</div>
-          <div class="edu-institute">Dharan Higher Secondary School</div>
-        </div>
-        <div class="edu-year">2017 – 2019</div>
-      </div>
-
-      <div class="edu-item">
-        <div class="edu-icon">📚</div>
-        <div class="edu-info">
-          <div class="edu-title">Schooling</div>
-          <div class="edu-institute">Eureka Residential Higher Secondary School</div>
-        </div>
-        <div class="edu-year">2002 – 2016</div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-    <!-- Skills Section (Expanded & Clean) -->
-<section class="section-card">
-  <div class="section-card-inner">
-    <div class="section-label">
-      <div class="role-dot"></div>Skills
-    </div>
-
-    <div class="competency-list">
-
-      <div class="competency-chip"><i class="fas fa-paintbrush"></i> UI/UX Strategy</div>
-      <div class="competency-chip"><i class="fas fa-code"></i> Frontend Development</div>
-      <div class="competency-chip"><i class="fas fa-mobile-alt"></i> Responsive Design</div>
-      <div class="competency-chip"><i class="fas fa-chart-line"></i> Brand Marketing</div>
-      <div class="competency-chip"><i class="fas fa-video"></i> Video Editing</div>
-      <div class="competency-chip"><i class="fas fa-database"></i> AI/ML Basics</div>
-      <div class="competency-chip"><i class="fas fa-users"></i> User Research</div>
-      <div class="competency-chip"><i class="fas fa-figma"></i> Prototyping</div>
-
-      <!-- Added Strong Competencies -->
-      <div class="competency-chip"><i class="fas fa-sitemap"></i> Design Systems</div>
-      <div class="competency-chip"><i class="fas fa-layer-group"></i> Interaction Design</div>
-      <div class="competency-chip"><i class="fas fa-lightbulb"></i> Creative Problem Solving</div>
-      <div class="competency-chip"><i class="fas fa-project-diagram"></i> Information Architecture</div>
-      <div class="competency-chip"><i class="fas fa-universal-access"></i> Accessibility (a11y)</div>
-      <div class="competency-chip"><i class="fas fa-tachometer-alt"></i> Performance Optimization</div>
-      <div class="competency-chip"><i class="fas fa-server"></i> API Integration</div>
-      <div class="competency-chip"><i class="fas fa-cloud"></i> Cloud Integration (AWS/Firebase)</div>
-      <div class="competency-chip"><i class="fas fa-brain"></i> AI Tools & Prompt Engineering</div>
-      <div class="competency-chip"><i class="fas fa-photo-video"></i> Motion Graphics</div>
-      <div class="competency-chip"><i class="fas fa-palette"></i> Visual Design</div>
-      <div class="competency-chip"><i class="fas fa-pencil-ruler"></i> Wireframing</div>
-
-    </div>
-  </div>
-</section>
-
-<!-- CERTIFICATES: ACCURATE AND EXPANDED -->
-<section class="section-card">
-  <div class="section-card-inner">
-    <div class="section-label">
-      <div class="role-dot"></div> Certifications
-    </div>
-
-    <div class="cert-list">
-
-      <div class="cert-item">
-        <div class="cert-icon">🎓</div>
-        <div class="cert-info">
-          <div class="cert-title">Google UX Design Professional Certificate</div>
-          <div class="cert-issuer">Google / Coursera (7-course series)</div>
-          <div class="cert-desc" style="font-size:0.75rem; margin-top:6px;">
-            Foundations of UX, wireframing, prototyping, usability testing.
-          </div>
-        </div>
-        <div class="cert-date">2024</div>
-      </div>
-
-      <div class="cert-item">
-        <div class="cert-icon">🤖</div>
-        <div class="cert-info">
-          <div class="cert-title">Deep Learning Specialization</div>
-          <div class="cert-issuer">DeepLearning.AI / Coursera</div>
-          <div class="cert-desc" style="font-size:0.75rem; margin-top:6px;">
-            Neural Networks, CNNs, RNNs, AI model deployment.
-          </div>
-        </div>
-        <div class="cert-date">2025</div>
-      </div>
-
-      <div class="cert-item">
-        <div class="cert-icon">🖌️</div>
-        <div class="cert-info">
-          <div class="cert-title">Adobe Certified Professional in Visual Design</div>
-          <div class="cert-issuer">Adobe / Certiport</div>
-          <div class="cert-desc" style="font-size:0.75rem; margin-top:6px;">
-            Photoshop, Illustrator, design principles.
-          </div>
-        </div>
-        <div class="cert-date">2024</div>
-      </div>
-
-      <div class="cert-item">
-        <div class="cert-icon">📊</div>
-        <div class="cert-info">
-          <div class="cert-title">Meta Frontend Developer Professional Certificate</div>
-          <div class="cert-issuer">Meta / Coursera</div>
-          <div class="cert-desc" style="font-size:0.75rem; margin-top:6px;">
-            React, advanced CSS/JS, version control.
-          </div>
-        </div>
-        <div class="cert-date">2024</div>
-      </div>
-
-      <div class="cert-item">
-        <div class="cert-icon">🎬</div>
-        <div class="cert-info">
-          <div class="cert-title">Video Editing Mastery: Premiere Pro + After Effects</div>
-          <div class="cert-issuer">Udemy (Motion Graphics Track)</div>
-        </div>
-        <div class="cert-date">2023</div>
-      </div>
-
-      <div class="cert-item">
-        <div class="cert-icon">⚙️</div>
-        <div class="cert-info">
-          <div class="cert-title">IBM Python for Data Science</div>
-          <div class="cert-issuer">IBM / Cognitive Class</div>
-        </div>
-        <div class="cert-date">2025</div>
-      </div>
-
-      <!-- NEW ADDITIONS -->
-      <div class="cert-item">
-        <div class="cert-icon">🎨</div>
-        <div class="cert-info">
-          <div class="cert-title">UI/UX Design Internship</div>
-          <div class="cert-issuer">CodeIT, Dharan</div>
-          <div class="cert-desc" style="font-size:0.75rem; margin-top:6px;">
-            Worked on user-centered design, wireframing, usability testing, and real project workflows under mentorship.
-          </div>
-        </div>
-        <div class="cert-date">2025</div>
-      </div>
-
-      <div class="cert-item">
-        <div class="cert-icon">💻</div>
-        <div class="cert-info">
-          <div class="cert-title">Web Design & Development Certificate</div>
-          <div class="cert-issuer">CodeIT, Dharan</div>
-          <div class="cert-desc" style="font-size:0.75rem; margin-top:6px;">
-            HTML, CSS, JavaScript, responsive web design and frontend fundamentals.
-          </div>
-        </div>
-        <div class="cert-date">2025</div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-      <!-- ── CTA ── -->
-      <section class="section-card">
-        <div class="cta-card">
-          <div style="display:flex;flex-direction:column;gap:12px;">
-            <h2 class="cta-title">Let's work together.</h2>
-            <p class="cta-desc">Designing brands & digital experiences from Dharan, Nepal</p>
-        </div>
-        <button class="btn-secondary" onclick="navigator.clipboard.writeText('nshresthaofficial@gmail.com');this.textContent='Copied!'">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M12.5 13.8H7.5C6.95 13.8 6.5 13.35 6.5 12.8V6.8C6.5 6.24 6.95 5.8 7.5 5.8H12.5C13.05 5.8 13.5 6.24 13.5 6.8V12.8C13.5 13.35 13.05 13.8 12.5 13.8Z" stroke="rgba(192,192,192,.6)" stroke-width="1.5" stroke-linecap="round"/><path d="M9.5 3.72V2.8C9.5 2.24 9.05 1.8 8.5 1.8H3.5C2.95 1.8 2.5 2.24 2.5 2.8V9.8C2.5 10.35 2.95 10.8 3.5 10.8H4.36" stroke="rgba(192,192,192,.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
-                Copy Email
-              </button>
-      </section>
-
-      <!-- ── SOCIALS ── -->
-      <section class="section-card">
-        <div class="socials-section">
-          <div class="section-label">
-            <div class="role-dot"></div>
-            Follow Me
-          </div>
-          <div class="social-buttons">
-            <a href="https://www.facebook.com/sthanishchalTV" target="_blank" class="social-btn" data-tooltip="Facebook">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://www.instagram.com/sthanishchal/" target="_blank" class="social-btn" data-tooltip="Instagram">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/sthanishchal/" target="_blank" class="social-btn" data-tooltip="LinkedIn">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-            <a href="https://github.com/sthanishchal" target="_blank" class="social-btn" data-tooltip="GitHub">
-              <i class="fab fa-github"></i>
-            </a>
-            <a href="https://www.behance.net/nishchashresth" target="_blank" class="social-btn" data-tooltip="Behance">
-              <i class="fab fa-behance"></i>
-            </a>
-            <a href="https://discord.gg/aWMQwEMnp7" target="_blank" class="social-btn" data-tooltip="Discord">
-              <i class="fab fa-discord"></i>
-            </a>
-            <a href="https://www.youtube.com/@sthanishchalTV" target="_blank" class="social-btn" data-tooltip="YouTube">
-              <i class="fab fa-youtube"></i>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Shop Section (Buy Me a Momo) -->
-      <section class="section-card" id="shop">
-        <div class="section-card-inner">
-          <div class="section-label"><div class="role-dot"></div> Support</div>
-          <a href="https://buymemomo.com/sthanishchal" target="_blank" class="product-item" style="background: linear-gradient(135deg, rgba(40,199,128,0.1) 0%, rgba(40,199,128,0.02) 100%); border-color: rgba(40,199,128,0.3);">
-            <div class="product-logo" style="background: var(--green-bg); border-color: var(--green);">🎁</div>
-            <div class="product-name" style="flex:1;">Buy Me a Momo →<span style="display:block; font-size:12px; color:var(--green-text);">Support my creative journey</span></div>
-            <div class="product-tag" style="background:var(--green-bg); color:var(--green-text);">Tip / Gift</div>
-            <svg class="arrow-icon" viewBox="0 0 16 14"><path d="M9.58 1.37L15.14 7M15.14 7L9.58 12.62M1.24 7L15.14 7" stroke="var(--green-text)" stroke-width="1.5"/></svg>
+    <!-- ── PROJECTS ── -->
+    <section class="section-card" id="projects">
+      <div class="section-card-inner">
+        <div class="section-header">
+          <div class="section-label"><div class="role-dot"></div> Projects</div>
+          <a href="https://github.com/sthanishchal" target="_blank" class="view-all-btn">
+            View All
+            <svg width="11" height="10" viewBox="0 0 11 10" fill="none"><path d="M6.2 1.25L9.8 5M9.8 5L6.2 8.75M0.8 5L9.8 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
-      </section>
 
-      <!-- ── FOOTER ── -->
-      <div class="footer-card">
-        <p class="footer-line">© 2026 Nishchal Shrestha</p>
+        <div class="project-list">
+
+          <a href="https://github.com/sthanishchal/Dog-Breed-Classifier" target="_blank" class="project-item">
+            <div class="project-logo" style="background:linear-gradient(135deg,#1a1535,#2d1b69);">
+              <i class="fas fa-paw" style="color:#a78bfa;"></i>
+            </div>
+            <div class="project-info">
+              <div class="project-name">Dog Breed Classifier</div>
+              <div class="project-tags">
+                <span class="project-tag-pill">Python</span>
+                <span class="project-tag-pill">CNN</span>
+                <span class="project-tag-pill">Deep Learning</span>
+              </div>
+            </div>
+            <svg class="chevron-right" viewBox="0 0 9 15" fill="none"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(160,160,160,1)" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </a>
+
+          <a href="https://github.com/sthanishchal/Grocery-" target="_blank" class="project-item">
+            <div class="project-logo" style="background:linear-gradient(135deg,#0d2818,#1a4731);">
+              <i class="fas fa-shopping-basket" style="color:#4ade80;"></i>
+            </div>
+            <div class="project-info">
+              <div class="project-name">Grocery Bill Manager</div>
+              <div class="project-tags">
+                <span class="project-tag-pill">Python</span>
+                <span class="project-tag-pill">Automation</span>
+                <span class="project-tag-pill">Scripting</span>
+              </div>
+            </div>
+            <svg class="chevron-right" viewBox="0 0 9 15" fill="none"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(160,160,160,1)" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </a>
+
+          <a href="https://github.com/sthanishchal/Flower-blooming" target="_blank" class="project-item">
+            <div class="project-logo" style="background:linear-gradient(135deg,#2d0a3e,#6b1f7a);">
+              <i class="fas fa-spa" style="color:#f0abfc;"></i>
+            </div>
+            <div class="project-info">
+              <div class="project-name">Flower Bloom Animation</div>
+              <div class="project-tags">
+                <span class="project-tag-pill">SCSS</span>
+                <span class="project-tag-pill">CSS Art</span>
+                <span class="project-tag-pill">Creative Coding</span>
+              </div>
+            </div>
+            <svg class="chevron-right" viewBox="0 0 9 15" fill="none"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(160,160,160,1)" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </a>
+
+          <a href="https://www.behance.net/nishchashresth" target="_blank" class="project-item">
+            <div class="project-logo" style="background:linear-gradient(135deg,#0a1628,#0d2d6e);">
+              <i class="fab fa-figma" style="color:#60a5fa;"></i>
+            </div>
+            <div class="project-info">
+              <div class="project-name">UI/UX Case Studies</div>
+              <div class="project-tags">
+                <span class="project-tag-pill">Figma</span>
+                <span class="project-tag-pill">User Research</span>
+                <span class="project-tag-pill">Prototyping</span>
+              </div>
+            </div>
+            <svg class="chevron-right" viewBox="0 0 9 15" fill="none"><path d="M1.5 1.5L7.5 7.5M7.5 7.5L1.5 13.5" stroke="rgba(160,160,160,1)" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </a>
+
+        </div>
       </div>
+    </section>
 
-    </div><!-- /main-card -->
-  </div><!-- /page-wrapper -->
+    <!-- ── EXPERIENCE ── -->
+    <section class="section-card" id="experience">
+      <div class="section-card-inner">
+        <div class="section-label"><div class="role-dot"></div> Professional Journey</div>
+        <div class="exp-list">
 
-  <script>
-    /* Nav active indicator */
-    function setActive(el) {
-      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-      el.classList.add('active');
-      const indicator = document.getElementById('navIndicator');
-      const links = document.querySelector('#navLinks');
-      const rect = el.getBoundingClientRect();
-      const linksRect = links.getBoundingClientRect();
-      indicator.style.left = (rect.left - linksRect.left) + 'px';
-    }
+          <div class="exp-item">
+            <div class="exp-icon" style="background:linear-gradient(135deg,#1a0d2e,#3b1f5c);">
+              <i class="fas fa-bullhorn" style="color:#c084fc;"></i>
+            </div>
+            <div class="exp-info">
+              <div class="exp-title">Marketing Manager / Video Editor / Tutor</div>
+              <div class="exp-company">CODE IT, Dharan</div>
+              <div class="exp-desc-text">Content strategy, storytelling, visual campaigns, and helping students master design tools.</div>
+            </div>
+            <div class="exp-period">Dec 2025 – Present</div>
+          </div>
 
-  const music = document.getElementById("bgMusic");
-  const btn = document.getElementById("musicToggle");
-  let isPlaying = false;
+          <div class="exp-item">
+            <div class="exp-icon" style="background:linear-gradient(135deg,#1a0a0a,#5c0000);">
+              <i class="fab fa-youtube" style="color:#f87171;"></i>
+            </div>
+            <div class="exp-info">
+              <div class="exp-title">Content Creator (YouTube)</div>
+              <div class="exp-company">sthanishchalTV — 9+ years of consistency</div>
+              <div class="exp-desc-text">Digital storytelling, audience engagement, long-term brand building.</div>
+            </div>
+            <div class="exp-period">2017 – Present</div>
+          </div>
 
-  function toggleMusic() {
-    if (isPlaying) {
+          <div class="exp-item">
+            <div class="exp-icon" style="background:linear-gradient(135deg,#0a1628,#0d2d6e);">
+              <i class="fas fa-pen-nib" style="color:#60a5fa;"></i>
+            </div>
+            <div class="exp-info">
+              <div class="exp-title">UI/UX Design Intern</div>
+              <div class="exp-company">CODE IT, Dharan</div>
+              <div class="exp-desc-text">Real-world user research, high-fidelity prototyping, design systems with Figma.</div>
+            </div>
+            <div class="exp-period">Mar – May 2025</div>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-icon" style="background:linear-gradient(135deg,#1a1200,#4a3500);">
+              <i class="fas fa-palette" style="color:#fbbf24;"></i>
+            </div>
+            <div class="exp-info">
+              <div class="exp-title">Graphic Design Intern</div>
+              <div class="exp-company">CodeAlpha, Lucknow</div>
+              <div class="exp-desc-text">Designed logos, posters, and brand identity assets; strengthened visual communication.</div>
+            </div>
+            <div class="exp-period">Nov – Dec 2024</div>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-icon" style="background:linear-gradient(135deg,#001a14,#004d3b);">
+              <i class="fas fa-landmark" style="color:#34d399;"></i>
+            </div>
+            <div class="exp-info">
+              <div class="exp-title">Executive Member</div>
+              <div class="exp-company">CSIT Association of Nepal – Purwanchal</div>
+              <div class="exp-desc-text">Organized tech-talks, co-led a 6-day Web Dev Bootcamp, coordinated teams.</div>
+            </div>
+            <div class="exp-period">Mar – Dec 2023</div>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-icon" style="background:linear-gradient(135deg,#0d1a1a,#124040);">
+              <i class="fas fa-handshake" style="color:#5eead4;"></i>
+            </div>
+            <div class="exp-info">
+              <div class="exp-title">General Member</div>
+              <div class="exp-company">CSIT Association of Nepal – Purwanchal</div>
+              <div class="exp-desc-text">Participated in events, workshops, and collaborative tech activities.</div>
+            </div>
+            <div class="exp-period">Dec 2022 – Mar 2023</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DIGITAL PRESENCE ── -->
+    <section class="section-card" id="products">
+      <div class="section-card-inner">
+        <div class="section-header">
+          <div class="section-label"><div class="role-dot"></div> Digital Presence</div>
+        </div>
+        <div class="product-list">
+
+          <a href="https://github.com/sthanishchal" target="_blank" class="product-item">
+            <div class="brand-logo" style="background:#161b22; border-color:#30363d;">
+              <i class="fab fa-github" style="color:#e6edf3; font-size:22px;"></i>
+            </div>
+            <div class="product-info">
+              <div class="product-name">GitHub</div>
+              <div class="product-sub">sthanishchal</div>
+            </div>
+            <div class="product-tag">Code Repos</div>
+            <svg class="arrow-icon" viewBox="0 0 16 14" fill="none"><path d="M9.58 1.37L15.14 7M15.14 7L9.58 12.62M1.24 7L15.14 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+
+          <a href="https://www.behance.net/nishchashresth" target="_blank" class="product-item">
+            <div class="brand-logo" style="background:#0057ff; border-color:#1a6bff;">
+              <i class="fab fa-behance" style="color:#fff; font-size:20px;"></i>
+            </div>
+            <div class="product-info">
+              <div class="product-name">Behance</div>
+              <div class="product-sub">nishchashresth</div>
+            </div>
+            <div class="product-tag">Design Work</div>
+            <svg class="arrow-icon" viewBox="0 0 16 14" fill="none"><path d="M9.58 1.37L15.14 7M15.14 7L9.58 12.62M1.24 7L15.14 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+
+          <a href="https://www.youtube.com/@sthanishchalTV" target="_blank" class="product-item">
+            <div class="brand-logo" style="background:#FF0000; border-color:#ff3333;">
+              <i class="fab fa-youtube" style="color:#fff; font-size:20px;"></i>
+            </div>
+            <div class="product-info">
+              <div class="product-name">YouTube</div>
+              <div class="product-sub">@sthanishchalTV</div>
+            </div>
+            <div class="product-tag">Since 2017</div>
+            <svg class="arrow-icon" viewBox="0 0 16 14" fill="none"><path d="M9.58 1.37L15.14 7M15.14 7L9.58 12.62M1.24 7L15.14 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+
+          <a href="https://www.linkedin.com/in/sthanishchal/" target="_blank" class="product-item">
+            <div class="brand-logo" style="background:#0A66C2; border-color:#1976d2;">
+              <i class="fab fa-linkedin-in" style="color:#fff; font-size:20px;"></i>
+            </div>
+            <div class="product-info">
+              <div class="product-name">LinkedIn</div>
+              <div class="product-sub">sthanishchal</div>
+            </div>
+            <div class="product-tag">Professional</div>
+            <svg class="arrow-icon" viewBox="0 0 16 14" fill="none"><path d="M9.58 1.37L15.14 7M15.14 7L9.58 12.62M1.24 7L15.14 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── EDUCATION ── -->
+    <section class="section-card" id="about">
+      <div class="section-card-inner">
+        <div class="section-label"><div class="role-dot"></div> Education</div>
+        <div class="edu-list">
+
+          <div class="edu-item">
+            <div class="edu-icon" style="background:linear-gradient(135deg,#0d1f3c,#1a3d7c);">
+              <i class="fas fa-graduation-cap" style="color:#60a5fa;"></i>
+            </div>
+            <div class="edu-info">
+              <div class="edu-title">Bachelor's in Computer Science</div>
+              <div class="edu-institute">Birendra Memorial College (TU)</div>
+            </div>
+            <div class="edu-year">2020 – 2025</div>
+          </div>
+
+          <div class="edu-item">
+            <div class="edu-icon" style="background:linear-gradient(135deg,#0d2818,#1a4731);">
+              <i class="fas fa-school" style="color:#4ade80;"></i>
+            </div>
+            <div class="edu-info">
+              <div class="edu-title">Higher Secondary (+2) — Computer Science</div>
+              <div class="edu-institute">Dharan Higher Secondary School</div>
+            </div>
+            <div class="edu-year">2017 – 2019</div>
+          </div>
+
+          <div class="edu-item">
+            <div class="edu-icon" style="background:linear-gradient(135deg,#1a1200,#4a3500);">
+              <i class="fas fa-book-open" style="color:#fbbf24;"></i>
+            </div>
+            <div class="edu-info">
+              <div class="edu-title">Schooling</div>
+              <div class="edu-institute">Eureka Residential Higher Secondary School</div>
+            </div>
+            <div class="edu-year">2002 – 2016</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SKILLS ── -->
+    <section class="section-card">
+      <div class="section-card-inner">
+        <div class="section-label"><div class="role-dot"></div> Skills</div>
+        <div class="competency-list">
+          <div class="competency-chip"><i class="fas fa-paintbrush"></i> UI/UX Strategy</div>
+          <div class="competency-chip"><i class="fas fa-code"></i> Frontend Development</div>
+          <div class="competency-chip"><i class="fas fa-mobile-alt"></i> Responsive Design</div>
+          <div class="competency-chip"><i class="fas fa-chart-line"></i> Brand Marketing</div>
+          <div class="competency-chip"><i class="fas fa-video"></i> Video Editing</div>
+          <div class="competency-chip"><i class="fas fa-robot"></i> AI / ML Basics</div>
+          <div class="competency-chip"><i class="fas fa-users"></i> User Research</div>
+          <div class="competency-chip"><i class="fas fa-pencil-ruler"></i> Prototyping</div>
+          <div class="competency-chip"><i class="fas fa-sitemap"></i> Design Systems</div>
+          <div class="competency-chip"><i class="fas fa-layer-group"></i> Interaction Design</div>
+          <div class="competency-chip"><i class="fas fa-lightbulb"></i> Creative Problem Solving</div>
+          <div class="competency-chip"><i class="fas fa-project-diagram"></i> Information Architecture</div>
+          <div class="competency-chip"><i class="fas fa-universal-access"></i> Accessibility (a11y)</div>
+          <div class="competency-chip"><i class="fas fa-tachometer-alt"></i> Performance Optimization</div>
+          <div class="competency-chip"><i class="fas fa-plug"></i> API Integration</div>
+          <div class="competency-chip"><i class="fas fa-cloud"></i> Cloud (AWS / Firebase)</div>
+          <div class="competency-chip"><i class="fas fa-brain"></i> Prompt Engineering</div>
+          <div class="competency-chip"><i class="fas fa-film"></i> Motion Graphics</div>
+          <div class="competency-chip"><i class="fas fa-palette"></i> Visual Design</div>
+          <div class="competency-chip"><i class="fas fa-vector-square"></i> Wireframing</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CERTIFICATIONS ── -->
+    <section class="section-card">
+      <div class="section-card-inner">
+        <div class="section-label"><div class="role-dot"></div> Certifications</div>
+        <div class="cert-list">
+
+          <div class="cert-item">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#0a1f3c,#1a3d7c);">
+              <i class="fab fa-google" style="color:#60a5fa;"></i>
+            </div>
+            <div class="cert-info">
+              <div class="cert-title">Google UX Design Professional Certificate</div>
+              <div class="cert-issuer">Google / Coursera — 7-course series</div>
+              <div class="cert-desc">Foundations of UX, wireframing, prototyping, usability testing.</div>
+            </div>
+            <div class="cert-date">2024</div>
+          </div>
+
+          <div class="cert-item">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#0d1828,#1a2f56);">
+              <i class="fas fa-brain" style="color:#818cf8;"></i>
+            </div>
+            <div class="cert-info">
+              <div class="cert-title">Deep Learning Specialization</div>
+              <div class="cert-issuer">DeepLearning.AI / Coursera</div>
+              <div class="cert-desc">Neural Networks, CNNs, RNNs, AI model deployment.</div>
+            </div>
+            <div class="cert-date">2025</div>
+          </div>
+
+          <div class="cert-item">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#1a0a00,#4a2500);">
+              <i class="fab fa-adobe" style="color:#ff6b35;"></i>
+            </div>
+            <div class="cert-info">
+              <div class="cert-title">Adobe Certified Professional — Visual Design</div>
+              <div class="cert-issuer">Adobe / Certiport</div>
+              <div class="cert-desc">Photoshop, Illustrator, design principles.</div>
+            </div>
+            <div class="cert-date">2024</div>
+          </div>
+
+          <div class="cert-item">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#0d1a2e,#1a2d5c);">
+              <i class="fab fa-meta" style="color:#60a5fa;"></i>
+            </div>
+            <div class="cert-info">
+              <div class="cert-title">Meta Frontend Developer Professional Certificate</div>
+              <div class="cert-issuer">Meta / Coursera</div>
+              <div class="cert-desc">React, advanced CSS/JS, version control.</div>
+            </div>
+            <div class="cert-date">2024</div>
+          </div>
+
+          <div class="cert-item">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#1a0505,#4a1515);">
+              <i class="fas fa-film" style="color:#f87171;"></i>
+            </div>
+            <div class="cert-info">
+              <div class="cert-title">Video Editing Mastery — Premiere Pro + After Effects</div>
+              <div class="cert-issuer">Udemy — Motion Graphics Track</div>
+            </div>
+            <div class="cert-date">2023</div>
+          </div>
+
+          <div class="cert-item">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#001428,#003080);">
+              <i class="fab fa-python" style="color:#60a5fa;"></i>
+            </div>
+            <div class="cert-info">
+              <div class="cert-title">IBM Python for Data Science</div>
+              <div class="cert-issuer">IBM / Cognitive Class</div>
+            </div>
+            <div class="cert-date">2025</div>
+          </div>
+
+          <div class="cert-item">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#0a1628,#0d2d6e);">
+              <i class="fas fa-pen-nib" style="color:#60a5fa;"></i>
+            </div>
+            <div class="cert-info">
+              <div class="cert-title">UI/UX Design Internship Certificate</div>
+              <div class="cert-issuer">CodeIT, Dharan</div>
+              <div class="cert-desc">User-centered design, wireframing, usability testing, real project workflows.</div>
+            </div>
+            <div class="cert-date">2025</div>
+          </div>
+
+          <div class="cert-item">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#001a14,#004d3b);">
+              <i class="fas fa-code" style="color:#34d399;"></i>
+            </div>
+            <div class="cert-info">
+              <div class="cert-title">Web Design & Development Certificate</div>
+              <div class="cert-issuer">CodeIT, Dharan</div>
+              <div class="cert-desc">HTML, CSS, JavaScript, responsive web design and frontend fundamentals.</div>
+            </div>
+            <div class="cert-date">2025</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA ── -->
+    <section class="section-card">
+      <div class="cta-card">
+        <div style="display:flex;flex-direction:column;gap:10px;align-items:center;">
+          <h2 class="cta-title">Let's work together.</h2>
+          <p class="cta-desc">Designing brands & digital experiences from Dharan, Nepal</p>
+        </div>
+        <button class="btn-secondary" id="copyEmailBtn" onclick="copyEmail()">
+          <i class="fas fa-copy" style="opacity:.6; font-size:13px;"></i>
+          Copy Email
+        </button>
+      </div>
+    </section>
+
+    <!-- ── SOCIALS ── -->
+    <section class="section-card">
+      <div class="socials-section">
+        <div class="section-label"><div class="role-dot"></div> Follow Me</div>
+        <div class="social-buttons">
+          <a href="https://www.facebook.com/sthanishchalTV" target="_blank" class="social-btn fb" data-tooltip="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.instagram.com/sthanishchal/" target="_blank" class="social-btn ig" data-tooltip="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/sthanishchal/" target="_blank" class="social-btn li" data-tooltip="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="https://github.com/sthanishchal" target="_blank" class="social-btn gh" data-tooltip="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://www.behance.net/nishchashresth" target="_blank" class="social-btn be" data-tooltip="Behance">
+            <i class="fab fa-behance"></i>
+          </a>
+          <a href="https://discord.gg/aWMQwEMnp7" target="_blank" class="social-btn dc" data-tooltip="Discord">
+            <i class="fab fa-discord"></i>
+          </a>
+          <a href="https://www.youtube.com/@sthanishchalTV" target="_blank" class="social-btn yt" data-tooltip="YouTube">
+            <i class="fab fa-youtube"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SUPPORT ── -->
+    <section class="section-card">
+      <div class="section-card-inner">
+        <div class="section-label"><div class="role-dot"></div> Support</div>
+        <a href="https://buymemomo.com/sthanishchal" target="_blank" class="product-item"
+           style="background:linear-gradient(135deg,rgba(40,199,128,.1),rgba(40,199,128,.02));border-color:rgba(40,199,128,.28);">
+          <div class="brand-logo" style="background:var(--green-bg);border-color:rgba(40,199,128,.4);">
+            <i class="fas fa-mug-hot" style="color:var(--green);font-size:20px;"></i>
+          </div>
+          <div class="product-info">
+            <div class="product-name" style="color:var(--green-text);">Buy Me a Momo</div>
+            <div class="product-sub" style="color:var(--green-text);opacity:.8;">Support my creative journey</div>
+          </div>
+          <div class="product-tag" style="background:var(--green-bg);color:var(--green-text);border-color:rgba(40,199,128,.3);">Tip / Gift</div>
+          <svg class="arrow-icon" viewBox="0 0 16 14" fill="none" style="opacity:.7;"><path d="M9.58 1.37L15.14 7M15.14 7L9.58 12.62M1.24 7L15.14 7" stroke="#039754" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <div class="footer-card">
+      <p class="footer-line">© 2026 Nishchal Shrestha · Designed & built with ❤️ from Dharan, Nepal</p>
+    </div>
+
+  </div><!-- /main-card -->
+</div><!-- /page-wrapper -->
+
+<script>
+/* ══════════════════════════════════════════════════
+   NAV — fully self-contained
+══════════════════════════════════════════════════ */
+(function () {
+  const navLinksEl  = document.getElementById('navLinks');
+  const indicator   = document.getElementById('navIndicator');
+  const hoverInd    = document.getElementById('navHoverIndicator');
+  const allLinks    = navLinksEl.querySelectorAll('.nav-link');
+  const sectionLinks = navLinksEl.querySelectorAll('.nav-link[data-section]');
+
+  function linkLeft(link) {
+    return link.getBoundingClientRect().left - navLinksEl.getBoundingClientRect().left;
+  }
+  function moveIndicator(link) {
+    indicator.style.left = linkLeft(link) + 'px';
+  }
+  function activateLink(link) {
+    allLinks.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+    moveIndicator(link);
+  }
+
+  /* initial position — wait for layout */
+  function initIndicator() {
+    const active = navLinksEl.querySelector('.nav-link.active');
+    if (active) moveIndicator(active);
+  }
+  initIndicator();
+  window.addEventListener('load', initIndicator);
+  setTimeout(initIndicator, 200);
+
+  /* click */
+  sectionLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      activateLink(this);
+      const target = document.getElementById(this.dataset.section);
+      if (target) {
+        const top = target.getBoundingClientRect().top + window.scrollY - 90;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  /* hover ghost */
+  allLinks.forEach(link => {
+    link.addEventListener('mouseenter', function () {
+      hoverInd.style.left    = linkLeft(this) + 'px';
+      hoverInd.style.opacity = '1';
+    });
+  });
+  navLinksEl.addEventListener('mouseleave', () => { hoverInd.style.opacity = '0'; });
+
+  /* scroll spy */
+  const sectionIds = ['hero','projects','experience','about'];
+  let ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      let current = 'hero';
+      sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.45) current = id;
+      });
+      const matched = navLinksEl.querySelector(`.nav-link[data-section="${current}"]`);
+      if (matched && !matched.classList.contains('active')) activateLink(matched);
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+
+/* ══════════════════════════════════════════════════
+   MUSIC TOGGLE
+══════════════════════════════════════════════════ */
+(function () {
+  const music = document.getElementById('bgMusic');
+  const btn   = document.getElementById('musicToggle');
+  let playing = false;
+  window.toggleMusic = function () {
+    if (playing) {
       music.pause();
       btn.innerHTML = '<i class="fas fa-music"></i>';
     } else {
-      music.play();
+      music.play().catch(() => {});
       btn.innerHTML = '<i class="fas fa-pause"></i>';
     }
-    isPlaying = !isPlaying;
-  }
+    playing = !playing;
+  };
+})();
 
-    /* Scroll spy */
-    const sections = ['hero','projects','products','about'];
-    const navLinks = document.querySelectorAll('.nav-link');
-    const indicator = document.getElementById('navIndicator');
-
-    window.addEventListener('scroll', () => {
-      let current = 'hero';
-      sections.forEach(id => {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top < window.innerHeight * 0.4) current = id;
-      });
-      navLinks.forEach(link => {
-        const href = link.getAttribute('href').replace('#','');
-        if (href === current) {
-          link.classList.add('active');
-          const linksRect = document.querySelector('#navLinks').getBoundingClientRect();
-          const rect = link.getBoundingClientRect();
-          indicator.style.left = (rect.left - linksRect.left) + 'px';
-        } else {
-          link.classList.remove('active');
-        }
-      });
-    });
-
-    /* Set initial indicator */
-    const firstActive = document.querySelector('.nav-link.active');
-    if (firstActive) {
-      const linksRect = document.querySelector('#navLinks').getBoundingClientRect();
-      const rect = firstActive.getBoundingClientRect();
-      indicator.style.left = (rect.left - linksRect.left) + 'px';
-    }
-  </script>
+/* ══════════════════════════════════════════════════
+   COPY EMAIL
+══════════════════════════════════════════════════ */
+function copyEmail() {
+  const btn = document.getElementById('copyEmailBtn');
+  navigator.clipboard.writeText('nshresthaofficial@gmail.com').then(() => {
+    const prev = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check" style="color:var(--green)"></i> Copied!';
+    setTimeout(() => { btn.innerHTML = prev; }, 2200);
+  }).catch(() => {});
+}
+</script>
 </body>
 </html>
